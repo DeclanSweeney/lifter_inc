@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Lifter</string>
+    <string name="calendar_button">Calendar</string>
+    <string name="survey_button">Survey</string>
+    <string name="progress_button">Progress</string>
+    <string name="chat_button">Chat</string>
+    <string name="workout_button">Workout</string>
 </resources>
