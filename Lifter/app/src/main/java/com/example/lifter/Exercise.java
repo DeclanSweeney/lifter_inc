@@ -4,9 +4,9 @@ public class Exercise {
     //variable
     //image if needed
     private int img_ex;
-    private string ex_name;
+    private String ex_name;
 
-    public Exercise(int img, string name){
+    public Exercise(int img, String name){
         this.img_ex = img;
         this.ex_name = name;
     }
@@ -20,13 +20,13 @@ public class Exercise {
         this.img_ex = img_ex;
     }
 
-    public string getEx_name() {
+    public String getEx_name() {
         return ex_name;
     }
 
-    public void setEx_name(string ex_name) {
+    public void setEx_name(String ex_name) {
         this.ex_name = ex_name;
     }
 
-    
+
 }
