@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "958735814673",
+    "firebase_url": "https://lifter-e754b.firebaseio.com",
+    "project_id": "lifter-e754b",
+    "storage_bucket": "lifter-e754b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958735814673:android:caa6c32659bedd0da2a1b0",
+        "android_client_info": {
+          "package_name": "com.example.lifter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "958735814673-0f3tokbkapf3a08pi97spord9naq5tro.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lifter",
+            "certificate_hash": "27bd97083cd68cf7ad35004da403475df7254e18"
+          }
+        },
+        {
+          "client_id": "958735814673-3qfj2uhe89b1l5ser30tun26gafe2mja.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOaO9dooBdrWsQUf1otHL2-Ru3xSnq87w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "958735814673-3qfj2uhe89b1l5ser30tun26gafe2mja.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

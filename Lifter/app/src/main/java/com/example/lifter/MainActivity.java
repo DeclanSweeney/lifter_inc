@@ -7,23 +7,36 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
-import java.util.Calendar;
+import com.google.android.material.tabs.TabLayout;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button calendarButton, workoutButton, progressButton, chatButton, surveyButton;
+    private Button calendarButton, workoutButton, progressButton, chatButton, surveyButton;
+    private Toolbar mainToolbar;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainToolbar = findViewById(R.id.main_page_toolbar);
+        setSupportActionBar(mainToolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Lifter");
 
+        //Instantiate the buttons
         calendarButton = findViewById(R.id.button_calendar);
         workoutButton = findViewById(R.id.button_workout);
         progressButton = findViewById(R.id.button_progress);
         surveyButton = findViewById(R.id.button_survey);
         chatButton = findViewById(R.id.button_chat);
 
+        //Set onlclick listeners for the buttons
         calendarButton.setOnClickListener(this);
         workoutButton.setOnClickListener(this);
         progressButton.setOnClickListener(this);
