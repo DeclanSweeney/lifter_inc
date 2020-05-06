@@ -12,4 +12,30 @@
         android:layout_centerInParent="true"
         android:text="@string/groups_fragment" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/create_group_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:src="@drawable/plus_icon_fab"
+        android:contentDescription="@string/add_group_button_description"
+        android:layout_margin="20dp" />
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rv_groups"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_centerHorizontal="true">-->
+<!--    </androidx.recyclerview.widget.RecyclerView>-->
+
 </RelativeLayout>

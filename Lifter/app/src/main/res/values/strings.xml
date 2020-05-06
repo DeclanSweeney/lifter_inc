@@ -24,4 +24,8 @@
     <string name="username_settings_text">Username</string>
     <string name="current_gym_text">Current Gym</string>
     <string name="update_settings_button_text">Update Settings</string>
+    <string name="add_group_button_description">Add group</string>
+    <string name="recent_message_text">Most recent message</string>
+    <string name="contact_name_text">Contact name</string>
+    <string name="to_do">TODO</string>
 </resources>
