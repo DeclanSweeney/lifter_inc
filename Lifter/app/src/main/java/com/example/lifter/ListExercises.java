@@ -9,6 +9,9 @@ import java.util.List;
 
 public class ListExercises extends AppCompatActivity {
 
+    //need to make a recycleview to display the list of exercises
+    //private RecyclerView m_recycleview;
+
     //Making a list of Exercise
     List<Exercise> exerciseList = new ArrayList<Exercise>();
 
