@@ -69,11 +69,23 @@ public class RecycleWorkViewAdapter extends RecyclerView.Adapter<RecycleViewHold
 
     @Override
     public void onBindViewHolder(@NonNull RecycleViewHolder holder, int position) {
+        //getting the image for the recycle view
+        //holder.image.setImageResource(exerciseList.get(position).getImg_ex());
+
+        //getting test for the container
+        //holder.text.setText(exerciseList.get(position).getEx_name());
+
+        holder.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                // will need to call an activity
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return exerciseList.size();
     }
 }
