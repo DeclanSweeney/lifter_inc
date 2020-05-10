@@ -1,14 +1,13 @@
 package com.example.lifter;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.Calendar;
+import androidx.appcompat.app.AppCompatActivity;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Button calendarButton, workoutButton, progressButton, chatButton, surveyButton;
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressButton.setOnClickListener(this);
         surveyButton.setOnClickListener(this);
         chatButton.setOnClickListener(this);
-        
+
     }
 
     @Override
@@ -37,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         switch (v.getId()) {
             case R.id.button_calendar:
-                Toast.makeText(this, "Calendar", Toast.LENGTH_SHORT).show();
                 intent = new Intent(MainActivity.this, CalendarActivity.class);
                 startActivity(intent);
                 break;
