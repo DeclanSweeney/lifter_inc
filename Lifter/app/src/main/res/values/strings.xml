@@ -11,4 +11,8 @@
     <string name="chat_fragment">Chat Fragment</string>
     <string name="groups_fragment">Groups Fragment</string>
     <string name="contacts_fragment">Contacts Fragment</string>
+
+    <string name="event_name">Event name</string>
+    <string name="save">Add Event</string>
+
 </resources>
