@@ -114,7 +114,7 @@ public class GroupsFragment extends Fragment {
         final AlertDialog.Builder createGroupDialog = new AlertDialog.Builder(groupFragmentView.getContext());
         createGroupDialog.setTitle("New Group Name: ");
         final EditText groupNameInput = new EditText((groupFragmentView.getContext()));
-        groupNameInput.setHint("<Group Name>");
+        groupNameInput.setHint("Group Name");
         createGroupDialog.setView(groupNameInput);
 
         createGroupDialog.setPositiveButton("Create", new DialogInterface.OnClickListener() {

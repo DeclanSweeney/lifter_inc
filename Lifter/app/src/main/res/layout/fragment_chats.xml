@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:src="@drawable/plus_icon_fab"
         android:contentDescription="@string/add_group_button_description"
         android:layout_margin="20dp" />

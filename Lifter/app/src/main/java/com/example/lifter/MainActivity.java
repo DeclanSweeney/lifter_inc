@@ -11,9 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
-
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -135,8 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onOptionsItemSelected(item);
 
         switch (item.getItemId()) {
-            case R.id.find_friends_option:
-                break;
             case R.id.settings_option:
                 Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(settingsIntent);
@@ -150,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void VerifyUser() {
-       String currentUserId = firebaseAuth.getCurrentUser().getUid();
+       String currentUserId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
 
         databaseReference.child("Users").child(currentUserId).addValueEventListener(new ValueEventListener() {
             @Override
