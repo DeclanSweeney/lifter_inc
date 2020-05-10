@@ -29,13 +29,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.715">
 
-        <android.support.v7.widget.RecyclerView
-            android:id ="@+id/list_ex"
-            android:Layout_below = "@+id/title"
-            android:layout_width = "match_parent"
-            android:layout_height = "match_parent"
 
-        />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/for_ex"
+            xmlns:app = "http://schemas.android.com/apk/res-auto"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </ScrollView>
 
 

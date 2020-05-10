@@ -20,6 +20,7 @@ class RecycleViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
     private ImageView image;
     private TextView txt;
 
+
     //references to other class
     private  ItemClickListener itemClickListener;
 
@@ -33,6 +34,12 @@ class RecycleViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         // apply actionListener
         itemView.setOnClickListener(this);
     }
+
+    // a method to accessible the parts
+    public void setData(int image, String text){
+        // need the resource
+    }
+
 
     // Need to set clicker
     public void setItemClickListener(ItemClickListener itemClickListener) {
@@ -63,9 +70,11 @@ public class RecycleWorkViewAdapter extends RecyclerView.Adapter<RecycleViewHold
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         //making the container
-        View itemView = inflater.inflate(R.layout.list_exercise,parent,false);
+        //View itemView = inflater.inflate(R.layout.list_exercise,parent,false);
+        View itemView =LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_workout,parent,false);
         return new RecycleViewHolder(itemView);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull RecycleViewHolder holder, int position) {
@@ -74,6 +83,14 @@ public class RecycleWorkViewAdapter extends RecyclerView.Adapter<RecycleViewHold
 
         //getting test for the container
         //holder.text.setText(exerciseList.get(position).getEx_name());
+
+        // context for the recycle view
+        int resource = exerciseList.get(position).getImg_ex() ;
+        String txt = exerciseList.get(position).getEx_name() ;
+        //will probably need another field for exercise
+
+        //need to set information
+        //RecycleViewHolder.setData("Push up","Description");
 
         holder.setItemClickListener(new ItemClickListener() {
             @Override
