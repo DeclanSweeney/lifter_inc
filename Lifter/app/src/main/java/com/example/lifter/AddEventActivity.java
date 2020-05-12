@@ -58,6 +58,17 @@ public class AddEventActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        String date = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(new Date());
+        buttonDate.setText(date);
+
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        //================== Today date ======================//
+        selectedDate = Integer.toString(year) + Integer.toString(month) + Integer.toString(day);
+
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,9 +86,6 @@ public class AddEventActivity extends AppCompatActivity {
                 newFragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
-
-        String date = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(new Date());
-        buttonDate.setText(date);
 
 
     }
