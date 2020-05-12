@@ -1,8 +1,8 @@
 package com.example.lifter;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.LinearLayout;
@@ -14,16 +14,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.lifter.database.mySQLiteDBHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Random;
+
 public class CalendarActivity extends AppCompatActivity {
 
     private static final String TAG = "CalendarActivity";
     private mySQLiteDBHandler dbHandler;
-    private TextView tvTitle, tvDesc,tvworkPlan;
+    private TextView tvTitle, tvDesc, tvworkPlan, tvRandomworkPlan, tvdayName;
     private CalendarView calendarView;
     private String selectedDate;
-    private SQLiteDatabase sqLiteDatabase;
-    FloatingActionButton addEvent;
-    LinearLayout eventLayout,workOutLay;
+    FloatingActionButton addEvent, addSuggestedEvent;
+    LinearLayout eventLayout, workOutLay, suggesteventLayout, suggestedDayLay;
+    String[] workOutActivity = new String[]{"Leg", "Chest", "Back", "Core", "Arms"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +41,35 @@ public class CalendarActivity extends AppCompatActivity {
         tvworkPlan = findViewById(R.id.tvworkPlan);
         calendarView = findViewById(R.id.calendarView);
         addEvent = findViewById(R.id.addEvent);
+        addSuggestedEvent = findViewById(R.id.addSuggestedEvent);
         eventLayout = findViewById(R.id.eventLayout);
         workOutLay = findViewById(R.id.workOutLay);
+        suggesteventLayout = findViewById(R.id.suggesteventLayout);
+        suggestedDayLay = findViewById(R.id.suggestedDayLay);
+        tvRandomworkPlan = findViewById(R.id.tvRandomworkPlan);
+        tvdayName = findViewById(R.id.tvdayName);
 
         dbHandler = new mySQLiteDBHandler(this);
+
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+
+                ///================ Get Event by this method =====================///
                 selectedDate = Integer.toString(year) + Integer.toString(month) + Integer.toString(dayOfMonth);
                 ReadDatabase(selectedDate);
+
+                ///================ Get Suggested Event by this method =====================///
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, dayOfMonth);
+                String[] days = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+                String day = days[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+                ReadAllSuggested(day);
+
             }
         });
+
 
         addEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,23 +79,75 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
 
+        addSuggestedEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), SuggestedEventActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
-   //======================== Get Data From Database (Date wise) ========================//
+    //======================== Get Data From Database (Date wise) ========================//
     public void ReadDatabase(String selectedDate) {
-        if (dbHandler.getNote(selectedDate)!=null){
+        if (dbHandler.getNote(selectedDate) != null) {
             eventLayout.setVisibility(View.VISIBLE);
             tvTitle.setText(dbHandler.getNote(selectedDate).getEvent());
             tvDesc.setText(dbHandler.getNote(selectedDate).getDescription());
-            if(dbHandler.getNote(selectedDate).getWork().length()>3){
+            if (dbHandler.getNote(selectedDate).getWork().length() > 3) {
                 workOutLay.setVisibility(View.VISIBLE);
                 String text = dbHandler.getNote(selectedDate).getWork().replace("[", "").replace("]", "");
                 tvworkPlan.setText(text);
             }
-        }else {
+        } else {
             eventLayout.setVisibility(View.GONE);
         }
 
+    }
+
+    public void ReadAllSuggested(String dayOfWeek) {
+
+        dbHandler.getAllSuggestDay();
+        if (dbHandler.getAllSuggestDay() != null) {
+            if (dbHandler.getAllSuggestDay().size() > 0) {
+
+                String days = dbHandler.getAllSuggestDay().get(0).getDay().replace("[", "").replace("]", "");
+                ArrayList<String> myList = new ArrayList<>(Arrays.asList(days.split(",")));
+                for (int i = 0; i < myList.size(); i++) {
+                    Log.e(TAG, "ReadAllSuggested: " + myList.get(i).trim());
+                    Log.e(TAG, "dayOfWeek: " + dayOfWeek);
+                    if (myList.get(i).trim().equals(dayOfWeek)) {
+                        int randomIndex = new Random().nextInt(workOutActivity.length);
+                        String randomName = workOutActivity[randomIndex];
+                        tvRandomworkPlan.setText(randomName);
+                        suggesteventLayout.setVisibility(View.VISIBLE);
+                        break;
+                    } else {
+                        suggesteventLayout.setVisibility(View.GONE);
+                    }
+                }
+            }
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (dbHandler.getAllSuggestDay() != null) {
+            if (dbHandler.getAllSuggestDay().size() > 0) {
+                suggestedDayLay.setVisibility(View.VISIBLE);
+                String days = dbHandler.getAllSuggestDay().get(0).getDay().replace("[", "").replace("]", "");
+                tvdayName.setText(days);
+            } else {
+                suggestedDayLay.setVisibility(View.GONE);
+            }
+        } else {
+            suggestedDayLay.setVisibility(View.GONE);
+        }
     }
 }
 

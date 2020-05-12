@@ -14,5 +14,8 @@
 
     <string name="event_name">Event name</string>
     <string name="save">Add Event</string>
+    <string name="add_suggest_event">Suggest Event</string>
+    <string name="what_days_do_you_want_exercise">What days do you want exercise ?</string>
+
 
 </resources>

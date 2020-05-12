@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:context=".SuggestedEventActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorBlack"
+        android:text="@string/what_days_do_you_want_exercise"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/checkSun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckboxClicked"
+            android:tag="Sunday"
+            android:text="Sunday" />
+
+        <CheckBox
+            android:id="@+id/checkMon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckboxClicked"
+            android:tag="Monday"
+            android:text="Monday" />
+
+        <CheckBox
+            android:id="@+id/checkTue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckboxClicked"
+            android:tag="Tuesday"
+            android:text="Tuesday" />
+
+        <CheckBox
+            android:id="@+id/checkWed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckboxClicked"
+            android:tag="Wednesday"
+            android:text="Wednesday" />
+
+        <CheckBox
+            android:id="@+id/checkThu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckboxClicked"
+            android:tag="Thursday"
+            android:text="Thursday" />
+
+        <CheckBox
+            android:id="@+id/checkFri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckboxClicked"
+            android:tag="Friday"
+            android:text="Friday" />
+
+        <CheckBox
+            android:id="@+id/checkSat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckboxClicked"
+            android:tag="Saturday"
+            android:text="Saturday" />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|bottom">
+
+        <Button
+            android:id="@+id/buttonSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginTop="25dp"
+            android:text="@string/add_suggest_event" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

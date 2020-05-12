@@ -29,6 +29,7 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
 
         // create notes table
         db.execSQL(Note.CREATE_TABLE);
+        db.execSQL(Suggested.CREATE_TABLE);
     }
 
     // Upgrading database
@@ -36,6 +37,7 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + Note.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Suggested.TABLE_SUGGESTED);
 
         // Create tables again
         onCreate(db);
@@ -94,12 +96,67 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         return note;
     }
 
-    public List<Note> getAllNotes() {
-        List<Note> notes = new ArrayList<>();
+    public long insertSuggested(String day) {
+        // get writable database as we want to write data
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        // `id` and `timestamp` will be inserted automatically.
+        // no need to add them
+        values.put(Suggested.COLUMN_DAY, day);
+
+        // insert row
+        long id = db.insert(Suggested.TABLE_SUGGESTED, null, values);
+
+        // close db connection
+        db.close();
+
+        // return newly inserted row id
+        return id;
+    }
+
+    public void clearSuggestedList(){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(Suggested.TABLE_SUGGESTED, null, null);
+    }
+
+    public Suggested getSuggested(String id) {
+        // get readable database as we are not inserting anything
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(Suggested.TABLE_SUGGESTED,
+                new String[]{Suggested.COLUMN_ID,  Suggested.COLUMN_DAY},
+                Suggested.COLUMN_DAY + "=?",
+                new String[]{String.valueOf(id)}, null, null, null, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        // prepare note object
+        Suggested suggested = null;
+        try {
+            suggested = new Suggested(
+                    cursor.getInt(cursor.getColumnIndex(Suggested.COLUMN_ID)),
+                    cursor.getString(cursor.getColumnIndex(Suggested.COLUMN_DAY)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // close the db connection
+        cursor.close();
+
+        return suggested;
+    }
+
+
+
+    public List<Suggested> getAllSuggestDay() {
+        List<Suggested> suggestedArrayList = new ArrayList<>();
 
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + Note.TABLE_NAME + " ORDER BY " +
-                Note.COLUMN_DATE + " DESC";
+        String selectQuery = "SELECT  * FROM " + Suggested.TABLE_SUGGESTED + " ORDER BY " +
+                Suggested.COLUMN_DAY + " DESC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -107,14 +164,11 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Note note = new Note();
-                note.setId(cursor.getInt(cursor.getColumnIndex(Note.COLUMN_ID)));
-                note.setDate(cursor.getString(cursor.getColumnIndex(Note.COLUMN_DATE)));
-                note.setEvent(cursor.getString(cursor.getColumnIndex(Note.COLUMN_EVENT)));
-                note.setDescription(cursor.getString(cursor.getColumnIndex(Note.COLUMN_DESC)));
-                note.setWork(cursor.getString(cursor.getColumnIndex(Note.COLUMN_WORK)));
+                Suggested suggested = new Suggested();
+                suggested.setId(cursor.getInt(cursor.getColumnIndex(Suggested.COLUMN_ID)));
+                suggested.setDay(cursor.getString(cursor.getColumnIndex(Suggested.COLUMN_DAY)));
 
-                notes.add(note);
+                suggestedArrayList.add(suggested);
             } while (cursor.moveToNext());
         }
 
@@ -122,7 +176,7 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         db.close();
 
         // return notes list
-        return notes;
+        return suggestedArrayList;
     }
 
     public int getNotesCount() {
