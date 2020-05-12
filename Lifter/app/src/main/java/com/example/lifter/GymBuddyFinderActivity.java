@@ -27,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -38,7 +39,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class GymBuddyFinderActivity extends AppCompatActivity {
     private Toolbar gymBuddyFinderToolbar;
     private RecyclerView gymBuddyFinderRV;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference, contactsReference;
     private FirebaseAuth userAuth;
     private String userUID;
     private HashMap<String, Object> requestedContactMap, acceptedContactMap;
@@ -60,7 +61,8 @@ public class GymBuddyFinderActivity extends AppCompatActivity {
         setSupportActionBar(gymBuddyFinderToolbar);
         getSupportActionBar().setTitle("Find a Buddy:");
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Contacts");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        contactsReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Contacts");
         userAuth = FirebaseAuth.getInstance();
         userUID = userAuth.getCurrentUser().getUid();
 
@@ -69,16 +71,14 @@ public class GymBuddyFinderActivity extends AppCompatActivity {
     }
 
     private void GetContactLists(DataSnapshot ds) {
-        Iterator it = ds.child("requests").getChildren().iterator();
+        Iterator it = ds.getChildren().iterator();
         while (it.hasNext()) {
             String contact_uid = ((DataSnapshot)it.next()).getKey();
-            requestedContactMap.put(contact_uid, "uid");
-        }
-
-        it = ds.child("accepted").getChildren().iterator();
-        while (it.hasNext()) {
-            String contact_uid = ((DataSnapshot)it.next()).getKey();
-            acceptedContactMap.put(contact_uid, "uid");
+            assert contact_uid != null;
+            if (ds.child(contact_uid).getValue().toString().equals("request_sent"))
+                requestedContactMap.put(contact_uid, "request_sent");
+            else
+                acceptedContactMap.put(contact_uid, "accepted");
         }
     }
 
@@ -86,25 +86,10 @@ public class GymBuddyFinderActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        databaseReference.addChildEventListener(new ChildEventListener() {
+        databaseReference.child(userUID).child("Contacts").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 GetContactLists(dataSnapshot);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                GetContactLists(dataSnapshot);
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                GetContactLists(dataSnapshot);
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
             }
 
             @Override
@@ -117,14 +102,20 @@ public class GymBuddyFinderActivity extends AppCompatActivity {
         FirebaseRecyclerOptions<Contacts> contactsOptions = new FirebaseRecyclerOptions.Builder<Contacts>()
                 .setQuery(databaseReference, Contacts.class).build();
 
-        FirebaseRecyclerAdapter<Contacts, FindGymBuddyViewHolder> gymBuddyAdapter = new FirebaseRecyclerAdapter<Contacts, FindGymBuddyViewHolder>(contactsOptions) {
+        final FirebaseRecyclerAdapter<Contacts, FindGymBuddyViewHolder> gymBuddyAdapter = new FirebaseRecyclerAdapter<Contacts, FindGymBuddyViewHolder>(contactsOptions) {
             @Override
             protected void onBindViewHolder(@NonNull FindGymBuddyViewHolder holder, final int position, @NonNull Contacts model) {
                 holder.username.setText(model.getName());
                 holder.userGym.setText(model.getGym());
                 Picasso.get().load(model.getProfile_image()).placeholder(R.drawable.place_holder).into(holder.userProfileImage);
-                if (model.getUid().equals(userUID)) {
+//                 || acceptedContactMap.containsKey(model.getUid())
+                if ((model.getUid() != null && model.getUid().equals(userUID))) {
                     holder.HideAddIcon();
+                }
+                else if (requestedContactMap.containsKey(model.getUid())) {
+                    holder.SentRequestIcon();
+                } else {
+                    holder.AddFriendIconVisible();
                 }
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +127,7 @@ public class GymBuddyFinderActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(GymBuddyFinderActivity.this, clickedProfileUID, Toast.LENGTH_SHORT).show();
                             AttemptAddContact(clickedProfileUID);
+                            notifyDataSetChanged();
                             Log.d("Onclick", "userUID: "+userUID);
                             Log.d("Onclick", "clickedUID: "+clickedProfileUID);
                         }
@@ -158,21 +150,25 @@ public class GymBuddyFinderActivity extends AppCompatActivity {
     }
 
     private void AttemptAddContact(String clickedUID) {
-        if (requestedContactMap.containsValue(clickedUID)) {
+        if (requestedContactMap.containsKey(clickedUID)) {
             Toast.makeText(this, "Cancelled Request", Toast.LENGTH_SHORT).show();
+            requestedContactMap.remove(clickedUID);
+            databaseReference.child(userUID).child("Contacts").child(clickedUID).removeValue();
+            databaseReference.child(clickedUID).child("Requests").child(userUID).removeValue();
         } else  if (acceptedContactMap.containsValue(clickedUID)) {
             Toast.makeText(this, "This person is already a friend", Toast.LENGTH_SHORT).show();
         } else {
-            requestedContactMap.put(clickedUID, "uid");
-            databaseReference.child("requests").updateChildren(requestedContactMap);
+            requestedContactMap.put(clickedUID, "request_sent");
+            databaseReference.child(userUID).child("Contacts").updateChildren(requestedContactMap);
+            databaseReference.child(clickedUID).child("Requests").child(userUID).setValue("request_pending");
         }
+        databaseReference.child(userUID).child("Contacts").updateChildren(requestedContactMap);
     }
 
     public static class FindGymBuddyViewHolder extends RecyclerView.ViewHolder {
         TextView username, userGym;
         CircleImageView userProfileImage;
         ImageView friendRequestIcon;
-        String uid;
 
         public FindGymBuddyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -184,7 +180,15 @@ public class GymBuddyFinderActivity extends AppCompatActivity {
         }
 
         public void HideAddIcon() {
-            friendRequestIcon.setVisibility(View.INVISIBLE);
+            //TODO: FIX THIS ASAP
+            //friendRequestIcon.setVisibility(View.INVISIBLE);
+        }
+        public void SentRequestIcon() {
+            friendRequestIcon.setImageResource(R.drawable.friend_request_sent_icon);
+        }
+
+        public void AddFriendIconVisible() {
+            friendRequestIcon.setImageResource(R.drawable.add_friend_icon);
         }
     }
 }

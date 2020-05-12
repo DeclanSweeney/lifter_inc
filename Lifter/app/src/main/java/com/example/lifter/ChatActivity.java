@@ -14,7 +14,7 @@ public class ChatActivity extends AppCompatActivity {
     private Toolbar chatToolbar;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private TabsAccessorAdapter tabsAccessorAdapter;
+    private ChatTabsAccessorAdapter tabsAccessorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class ChatActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Chat");
 
         viewPager = findViewById(R.id.chat_tabs_pager);
-        tabsAccessorAdapter = new TabsAccessorAdapter(getSupportFragmentManager());
+        tabsAccessorAdapter = new ChatTabsAccessorAdapter(getSupportFragmentManager());
         viewPager.setAdapter(tabsAccessorAdapter);
         tabLayout = findViewById(R.id.chat_tabs);
         tabLayout.setupWithViewPager(viewPager);

@@ -145,22 +145,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void VerifyUser() {
-       String currentUserId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
+        if (firebaseUser == null) {
+            firebaseAuth.signOut();
+        }
+        else {
+            String currentUserId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
 
-        databaseReference.child("Users").child(currentUserId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("name").exists()) {
-                    Toast.makeText(MainActivity.this, "Welcome "+dataSnapshot.child("name").getValue(), Toast.LENGTH_SHORT).show();
-                } else {
-                    SendUserToSettings();
+            databaseReference.child("Users").child(currentUserId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.child("name").exists()) {
+                        Toast.makeText(MainActivity.this, "Welcome " + dataSnapshot.child("name").getValue(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        SendUserToSettings();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
     }
 }
