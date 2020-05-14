@@ -18,7 +18,7 @@ import java.util.List;
 public class WorkoutActivity extends AppCompatActivity implements View.OnClickListener  {
 
     // objects
-    private Button finbutton;
+    private Button finbutton,workoutButton;
     private RecyclerView for_ex;
     Context context;
 
@@ -34,6 +34,8 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
 
         //Recycle view connection
         for_ex = findViewById(R.id.for_ex);
+        workoutButton = (Button)findViewById(R.id.Workout);
+        workoutButton.setOnClickListener(this);
 
         // making a layout
         LinearLayout layoutManager = new LinearLayout(this);
@@ -41,26 +43,20 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
         // need to fix
 
         //for_ex.setLayoutManager(layoutManager);
-
-        //making list of exercise
-        List<Exercise> ex_list = new ArrayList<>();
-        ex_list.add(new Exercise(R.drawable.ic_launcher_background,"Push up"));
-
-        //setting up adapter
-        RecycleWorkViewAdapter rwa = new RecycleWorkViewAdapter(ex_list,context);
-        for_ex.setAdapter(rwa);
-
-        rwa.notifyDataSetChanged();
     }
 
 
     @Override
     public void onClick(View v) {
-        Intent workoutintent;
         // switch case for the buttons
         switch(v.getId()){
             case R.id.Finishworkbutton:
                 Toast.makeText(this,"Finished workout",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.Workout:
+                Intent intent = new Intent(WorkoutActivity.this,ListExercise.class);
+                startActivity(intent);
+                break;
         }
 
 
