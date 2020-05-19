@@ -14,6 +14,7 @@ public class ListExercise extends AppCompatActivity {
     // objects
     List<Exercise> exerciseList = new ArrayList<>();
 
+
     //RecyclerViews
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
@@ -33,7 +34,8 @@ public class ListExercise extends AppCompatActivity {
     }
 
     private void init() {
-        exerciseList.add(new Exercise(R.drawable.pushup,"Push up"));
+        exerciseList.add(new Exercise(R.drawable.pushup,"Push up","hi","Ho"));
+        exerciseList.add(new Exercise(R.drawable.pushup,"Pull ups","push","like"));
     }}
 
 
