@@ -49,9 +49,13 @@ public class CalendarActivity extends AppCompatActivity {
         tvRandomworkPlan = findViewById(R.id.tvRandomworkPlan);
         tvdayName = findViewById(R.id.tvdayName);
 
+
+        //=================== Initialize Table ===================//
         dbHandler = new mySQLiteDBHandler(this);
 
 
+
+        //======================== Calender Date Change ====================== //
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -91,7 +95,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
-    //======================== Get Data From Database (Date wise) ========================//
+    //======================== Get Data From Database (Event Data by Date wise) ========================//
     public void ReadDatabase(String selectedDate) {
         if (dbHandler.getNote(selectedDate) != null) {
             eventLayout.setVisibility(View.VISIBLE);
@@ -108,6 +112,8 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
+
+    //======================== Get Data From Database (Suggested Event Data by date wise) ========================//
     public void ReadAllSuggested(String dayOfWeek) {
 
         dbHandler.getAllSuggestDay();
@@ -134,6 +140,8 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
+
+    //=================== Every time method Called when you come on this page ============//
     @Override
     protected void onResume() {
         super.onResume();

@@ -52,6 +52,7 @@ public class AddEventActivity extends AppCompatActivity {
 
         list = new ArrayList<>();
 
+        //=================== Initialize Table ===================//
         try {
             dbHandler = new mySQLiteDBHandler(this);
         } catch (Exception e) {
@@ -90,11 +91,15 @@ public class AddEventActivity extends AppCompatActivity {
 
     }
 
+
+    /// =============== Insert data on table  ============//
     public void InsertDatabase() {
         dbHandler.insertNote(selectedDate, textInputEditText.getText().toString(), editDesc.getText().toString(),list.toString());
         finish();
     }
 
+
+    //================= Date picker class ================//
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
@@ -109,6 +114,7 @@ public class AddEventActivity extends AppCompatActivity {
             return dialog;
         }
 
+        //================= On date click ================//
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             selectedDate = Integer.toString(year) + Integer.toString(monthOfYear) + Integer.toString(dayOfMonth);
             // buttonDate.setText(selectedDate);
@@ -129,6 +135,7 @@ public class AddEventActivity extends AppCompatActivity {
         }
     }
 
+    //=================== check box click ======================//
     public void onCheckboxClicked(View view) {
 
         boolean checked = ((CheckBox) view).isChecked();

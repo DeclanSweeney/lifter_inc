@@ -37,6 +37,7 @@ public class SuggestedEventActivity extends AppCompatActivity {
 
         list = new ArrayList<>();
 
+        //=================== Initialize Table ===================//
         try {
             dbHandler = new mySQLiteDBHandler(this);
         } catch (Exception e) {
@@ -54,12 +55,14 @@ public class SuggestedEventActivity extends AppCompatActivity {
 
     }
 
+    /// =============== Insert data on table  ============//
     public void InsertDatabase() {
         dbHandler.clearSuggestedList();
         dbHandler.insertSuggested(list.toString());
         finish();
     }
 
+    //=================== check box click ======================//
     public void onCheckboxClicked(View view) {
 
         boolean checked = ((CheckBox) view).isChecked();
