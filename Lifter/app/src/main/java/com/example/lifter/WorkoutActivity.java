@@ -18,7 +18,7 @@ import java.util.List;
 public class WorkoutActivity extends AppCompatActivity implements View.OnClickListener  {
 
     // objects
-    private Button finbutton,workoutButton;
+    private Button finbutton,workoutButton,exerciseButton;
     private RecyclerView for_ex;
     Context context;
 
@@ -31,6 +31,8 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
         //buttons - to connect to buttons
         finbutton = (Button)findViewById(R.id.Finishworkbutton);
         finbutton.setOnClickListener(this);
+        exerciseButton = (Button)findViewById(R.id.exercise);
+        exerciseButton.setOnClickListener(this);
 
         //Recycle view connection
         for_ex = findViewById(R.id.for_ex);
@@ -57,6 +59,9 @@ public class WorkoutActivity extends AppCompatActivity implements View.OnClickLi
                 Intent intent = new Intent(WorkoutActivity.this,ListExercise.class);
                 startActivity(intent);
                 break;
+            case R.id.exercise:
+                Intent beta = new Intent(WorkoutActivity.this,specific_exercise.class);
+                startActivity(beta);
         }
 
 

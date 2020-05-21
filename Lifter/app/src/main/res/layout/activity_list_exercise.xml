@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/title"
         android:background="@color/colorPrimary"
-        android:text = "VIEW Exercise"
+        android:text = "List of Exercises"
         android:textColor="@android:color/white"
         android:textSize ="24dp"
         android:gravity="center_vertical"

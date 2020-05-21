@@ -12,9 +12,11 @@
         android:layout_height="wrap_content"
         android:text="Target reps =  12 reps"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.339"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintVertical_bias="0.339" />
 
     <TextView
         android:id="@+id/recreps_txt"
@@ -22,9 +24,11 @@
         android:layout_height="wrap_content"
         android:text="Recorded "
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.706"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.339"
-        tools:layout_editor_absoluteX="249dp" />
+        app:layout_constraintVertical_bias="0.339" />
 
     <TextView
         android:id="@+id/RecTarget"
@@ -32,9 +36,11 @@
         android:layout_height="wrap_content"
         android:text="recorded:"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.709"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.285"
-        tools:layout_editor_absoluteX="249dp" />
+        app:layout_constraintVertical_bias="0.287" />
 
     <Button
         android:id="@+id/Finishworkbutton"
@@ -73,9 +79,10 @@
         android:id="@+id/Workout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:layout_marginTop="76dp"
+        android:text="Workout Page"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -85,9 +92,22 @@
         android:layout_height="wrap_content"
         android:text="Targetweight =  12Kg"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.097"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.285"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintVertical_bias="0.287" />
+
+    <Button
+        android:id="@+id/exercise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Exercise info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.431"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
