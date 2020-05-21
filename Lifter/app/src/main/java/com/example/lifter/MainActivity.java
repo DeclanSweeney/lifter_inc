@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.lifter.progress.ProgressActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;

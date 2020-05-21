@@ -1,10 +1,14 @@
-package com.example.lifter;
+package com.example.lifter.progress;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -16,65 +20,106 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.example.lifter.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class ProgressActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button takePhotoButton;
-    private Button buttonViewProgressPhotos;
-    private ImageView imageView;
-    static final int REQUEST_TAKE_PHOTO = 1;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    String currentPhotoPath;
+public class ProgressActivity extends AppCompatActivity implements ProgressPhotoGalleryFragment.OnListFragmentInteractionListener {
+
+    private RecyclerView.Adapter recyclerViewAdapter;
+    private RecyclerView recyclerView;
+    private FloatingActionButton buttonTakePhoto;
+    private static final int REQUEST_TAKE_PHOTO = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private String currentPhotoPath;
     private static final int REQUEST_STORAGE_PERMISSION = 1;
+    private  MyProgressPhotoGalleryRecyclerViewAdapter adapter;
+    private List<PictureItem> items = new ArrayList<PictureItem>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
+        buttonTakePhoto = findViewById(R.id.button_take_photo);
 
-        // map view buttons to button class
-        takePhotoButton = findViewById(R.id.button_take_photo);
-        buttonViewProgressPhotos = findViewById(R.id.button_view_progress_photos);
-        //Add click listener to our buttons
+        if (recyclerViewAdapter == null) {
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+            recyclerView = (RecyclerView) currentFragment.getView();
+            recyclerViewAdapter = ((RecyclerView) currentFragment.getView()).getAdapter();
+        }
 
-        // When ever the takephoto button is clicked it will open a camera
-        takePhotoButton.setOnClickListener(this);
+        adapter = new MyProgressPhotoGalleryRecyclerViewAdapter(items,this);
+        recyclerView.setAdapter(adapter);
+        loadImages();
 
-        // Everytime the buttonViewProgressPhotos is clicked it will open another activity and show yuo all the photos that user has taken.
-        buttonViewProgressPhotos.setOnClickListener(this);
-
-        // map image view
-        imageView = findViewById(R.id.imageView);
-    }
-
-    // This method will run when ever the  takePhotoButton or buttonViewProgressPhotos is clicked
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button_take_photo:
+        buttonTakePhoto.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 // First we need to ask the user to give permission to save photo to external location
                 if (ContextCompat.checkSelfPermission(getApplicationContext(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
 
                     // If you do not have permission, request it
-                    ActivityCompat.requestPermissions(this,
+                    ActivityCompat.requestPermissions(ProgressActivity.this,
                             new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             REQUEST_STORAGE_PERMISSION);
                 } else {
                     // When button_take_photo is clicked this method will run.
                     takePicture();
                 }
-                break;
-            case R.id.button_view_progress_photos:
-                Intent intent = new Intent(this, ProgressGallery.class);
-                startActivity(intent);
-                break;
+            }
+        });
+    }
+
+    /**
+     * Load images from storage and add them to the list view.
+     */
+    private void loadImages(){
+        items.clear();
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File[] list = storageDir.listFiles();
+
+        for (File file : list) {
+            PictureItem newItem = new PictureItem();
+            newItem.uri = Uri.fromFile(file);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss a");
+            Date lastModDate = new Date(file.lastModified());
+            newItem.date = format.format(lastModDate);
+            items.add(newItem);
         }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onListFragmentInteraction(final PictureItem item) {
+        new AlertDialog.Builder(this)
+                .setTitle("Progress Photo")
+                .setMessage("Delete this progress photo?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        File file = new File(item.uri.getPath());
+                        if (file.exists()) {
+                            if (file.delete()) {
+                                Toast.makeText(ProgressActivity.this, "Progress Photo Deleted.", Toast.LENGTH_SHORT).show();
+                                // refresh photo view once the photo has been deleted
+                                loadImages();
+                            } else {
+                                Toast.makeText(ProgressActivity.this, "Could not delete Progress Photo.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
     // This method will show the camera app and allow you to take a photo.
@@ -109,11 +154,10 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
     // This method returns the file which we will use the save to photo.
     private File createPhotoFile() throws IOException {
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        String timeStamp = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
+                ""+timeStamp+"",  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
@@ -129,35 +173,9 @@ public class ProgressActivity extends AppCompatActivity implements View.OnClickL
         // And we will take the image and show it on the image view in our activity.
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
-            // This method will show the photo on the image view.
-            showPhotoOnImageView();
-
+            // reload the images and update the list.
+            loadImages();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-    private void showPhotoOnImageView() {
-        // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
-
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-        bmOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
-        imageView.setImageBitmap(bitmap);
-    }
-
 }
