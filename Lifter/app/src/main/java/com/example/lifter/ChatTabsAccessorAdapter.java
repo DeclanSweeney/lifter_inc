@@ -6,22 +6,33 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-public class TabsAccessorAdapter extends FragmentPagerAdapter {
+/**
+ * Tabs setup for the fragments to be displayed within for more
+ * user friendly UI
+ */
+public class ChatTabsAccessorAdapter extends FragmentPagerAdapter {
 
-    public TabsAccessorAdapter(@NonNull FragmentManager fm) {
+    public ChatTabsAccessorAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
 
+    /**
+     * Initialises the fragments within the view
+     * @param position
+     * @return position of currently selected fragment
+     */
     @NonNull
     @Override
     public Fragment getItem(int position) {
              switch (position) {
                  case 0:
-                     return new ChatsFragment();
+                     return new ChatFragment();
                  case 1:
                      return new GroupsFragment();
                  case 2:
                      return new ContactsFragment();
+//                 case 3:
+//                     return new RequestsFragment();
                  default:
                      return null;
              }
@@ -32,16 +43,23 @@ public class TabsAccessorAdapter extends FragmentPagerAdapter {
         return 3;
     }
 
+    /**
+     * Sets display name for fragments in position
+     * @param position
+     * @return
+     */
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Chats";
+                return "Chat";
             case 1:
                 return "Groups";
             case 2:
                 return "Contacts";
+//            case 3:
+//                return "Requests";
             default:
                 return null;
         }
