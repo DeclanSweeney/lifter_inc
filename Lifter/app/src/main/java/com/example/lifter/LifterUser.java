@@ -1,5 +1,8 @@
 package com.example.lifter;
 
+/**
+ * Not currently used
+ */
 public class LifterUser {
     private String userID, userName, gymName;
 

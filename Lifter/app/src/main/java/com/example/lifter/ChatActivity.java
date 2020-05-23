@@ -16,6 +16,12 @@ public class ChatActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ChatTabsAccessorAdapter tabsAccessorAdapter;
 
+    /**
+     * Activity for linking the Main to the Chat side of the application
+     * Initialises a Tab viewer with the fragments for different parts of
+     * the Chat functionality (Single chat, group chat and contacts)
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

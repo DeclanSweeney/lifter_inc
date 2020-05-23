@@ -70,6 +70,10 @@ public class GymBuddyFinderActivity extends AppCompatActivity {
         acceptedContactMap = new HashMap<>();
     }
 
+    //Gets the list of users that the current user has already attempted to make contact with
+    //These users populate either the request sent or accepted maps which allows the UI
+    //to update accordingly. For example, if the user has already sent a request a "Send request" icon
+    //should be replaced with a "Request Sent" icon
     private void GetContactLists(DataSnapshot ds) {
         Iterator it = ds.getChildren().iterator();
         while (it.hasNext()) {
@@ -98,16 +102,18 @@ public class GymBuddyFinderActivity extends AppCompatActivity {
             }
         });
 
-
+        //Initializes the FirebaseRecyclerOptions by populating a list of contacts to be added
+        //to the local recyclerview
         FirebaseRecyclerOptions<Contacts> contactsOptions = new FirebaseRecyclerOptions.Builder<Contacts>()
                 .setQuery(databaseReference, Contacts.class).build();
 
+        //Adapter for the recyclerview that sets the model layout with information pulled from the database
         final FirebaseRecyclerAdapter<Contacts, FindGymBuddyViewHolder> gymBuddyAdapter = new FirebaseRecyclerAdapter<Contacts, FindGymBuddyViewHolder>(contactsOptions) {
             @Override
             protected void onBindViewHolder(@NonNull FindGymBuddyViewHolder holder, final int position, @NonNull Contacts model) {
                 holder.username.setText(model.getName());
                 holder.userGym.setText(model.getGym());
-                Picasso.get().load(model.getProfile_image()).placeholder(R.drawable.place_holder).into(holder.userProfileImage);
+                Picasso.get().load(model.getProfile_image()).placeholder(R.drawable.default_profile_icon).into(holder.userProfileImage);
 //                 || acceptedContactMap.containsKey(model.getUid())
                 if ((model.getUid() != null && model.getUid().equals(userUID))) {
                     holder.HideAddIcon();
@@ -137,6 +143,7 @@ public class GymBuddyFinderActivity extends AppCompatActivity {
 
             @NonNull
             @Override
+            //Layout inflater which allows for access to the viewholder
             public FindGymBuddyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_display_layout, parent, false);
                 FindGymBuddyViewHolder viewHolder = new FindGymBuddyViewHolder(view);
@@ -149,6 +156,12 @@ public class GymBuddyFinderActivity extends AppCompatActivity {
         gymBuddyAdapter.startListening();
     }
 
+    //When called will take the UID of the selected user from the RV and check it against the
+    //current user's contact map. 3 Things may happen:
+    // - The user is trying to select themself or an already added friend and will be passed a toast
+    //   message explaining as such
+    // - The user is trying to add someone not on the map and will be added to the request sent map
+    // - The user is adding someone on the request set map and will be removed and "request cancelled"
     private void AttemptAddContact(String clickedUID) {
         if (requestedContactMap.containsKey(clickedUID)) {
             Toast.makeText(this, "Cancelled Request", Toast.LENGTH_SHORT).show();

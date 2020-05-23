@@ -14,7 +14,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Contacts fragment to display added and available contacts
+ * Pulls contacts from database list and updates accordingly within
+ * the recycler view
+ *
+ * TODO: Complete this after SPRINT 1 REVIEW
  */
 public class ContactsFragment extends Fragment {
     private RecyclerView rvContacts;

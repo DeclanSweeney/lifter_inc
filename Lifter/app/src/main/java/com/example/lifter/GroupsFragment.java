@@ -57,6 +57,7 @@ public class GroupsFragment extends Fragment {
         arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, listOfGroups);
         listView.setAdapter(arrayAdapter);
 
+        //Sets the onClick listener for the list view to open individual chats
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -77,6 +78,7 @@ public class GroupsFragment extends Fragment {
         InitializeFields();
         FetchGroups();
 
+        //Sets the floating action button to allow for the creation of new groups
         FloatingActionButton fabCreateGroup = (FloatingActionButton) groupFragmentView.findViewById(R.id.create_group_fab);
         fabCreateGroup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +90,7 @@ public class GroupsFragment extends Fragment {
         return groupFragmentView;
     }
 
+    //Gets the list of groups from the database to populate the groups list
     private void FetchGroups() {
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -110,6 +113,9 @@ public class GroupsFragment extends Fragment {
         });
     }
 
+    //Popup dialogue for new group creation which allows the user to
+    //enter in a new group name and if it is not empty, will push the
+    //group to the database
     private void SetupNewGroup() {
         final AlertDialog.Builder createGroupDialog = new AlertDialog.Builder(groupFragmentView.getContext());
         createGroupDialog.setTitle("New Group Name: ");

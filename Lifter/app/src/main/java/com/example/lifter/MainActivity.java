@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         VerifyUser();
     }
 
+    //If the user is not logged in, send them back to the Login Activity
     @Override
     protected void onStart() {
         super.onStart();
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    //Send user to login activity and disable return via back button
     private void SendUserToLogin() {
         Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         finish();
     }
 
+    //Send user to the settings activity
     private void SendUserToSettings() {
         Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
         settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         finish();
     }
 
+    //Set onClick listeners for the main screen buttons
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -119,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //Hamburger menu for settings and logout
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -127,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+    //Configure hamburger menu with options and listeners
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
@@ -144,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+    //Will send the user to settings if they don't have at least a name set for their account
     private void VerifyUser() {
         if (firebaseUser == null) {
             firebaseAuth.signOut();

@@ -1,5 +1,8 @@
 package com.example.lifter;
 
+/**
+ * Contact type with getters and setters
+ */
 public class Contacts {
     private String name, profile_image, gym, uid;
 

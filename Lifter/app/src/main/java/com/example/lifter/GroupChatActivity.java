@@ -25,6 +25,11 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * Group chat activity for connecting multiple users to a single chat point
+ * to share messages amongst all
+ */
+
 public class GroupChatActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Button  sendGroupMessageButton;
@@ -41,15 +46,21 @@ public class GroupChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chat);
 
+        //Initialises local variables
         InitializeFields();
+        //Gets the user data from DB and populates local pointer variables
         PullUserData();
 
+        //Code for functionality of the Send Message button
         sendGroupMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Extract message from user input box
                 String message = groupMessageInput.getText().toString().trim();
+                //Set key for new message within database
                 String messageKey = databaseReference.child("Groups").push().getKey();
 
+                //Push message to database if not empty
                 if (!message.isEmpty()) {
                     GetTimeDate();
                     PushMessageToDatabase(message, messageKey);
@@ -59,6 +70,7 @@ public class GroupChatActivity extends AppCompatActivity {
         });
     }
 
+    //Called to update the message screen with messages already on the database
     @Override
     protected void onStart() {
         super.onStart();
@@ -95,6 +107,8 @@ public class GroupChatActivity extends AppCompatActivity {
         });
     }
 
+    //Called OnStart and OnChange so that whenever a message is sent to the database all
+    //users will have local display updated to reflect
     private void UpdateMessages(DataSnapshot ds) {
         Iterator it = ds.getChildren().iterator();
 
@@ -110,6 +124,7 @@ public class GroupChatActivity extends AppCompatActivity {
         groupMessageScrollView.fullScroll(ScrollView.FOCUS_DOWN);
     }
 
+    //Pushes the message to the database with key value pairs
     private void PushMessageToDatabase(String msg, String msgKey) {
         HashMap<String, Object> groupMessageMap = new HashMap<>();
         databaseReference.child("Groups").updateChildren(groupMessageMap);
@@ -125,6 +140,7 @@ public class GroupChatActivity extends AppCompatActivity {
         groupMessageInput.setText("");
     }
 
+    //Gets the time and date from local system to add to message info
     private void GetTimeDate() {
         Calendar calDate = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E dd MMM, yyyy");
@@ -154,6 +170,8 @@ public class GroupChatActivity extends AppCompatActivity {
         groupNameRef = FirebaseDatabase.getInstance().getReference().child("Groups").child(groupName);
     }
 
+    //Gets the User Data from the database so to allow them to send messages with their details
+    //attached within groupchat
     private void PullUserData() {
         databaseReference.child("Users").child(uid).addValueEventListener(new ValueEventListener() {
             @Override

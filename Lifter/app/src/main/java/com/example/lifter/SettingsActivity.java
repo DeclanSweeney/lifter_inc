@@ -71,6 +71,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         databaseUserRef = FirebaseStorage.getInstance().getReference().child("Profile Pictures");
     }
 
+    //Called when selecting the profile picture to change the image locally. Allows the user to crop
+    //their picture using code from a public git repo
+    //If the image selection and crop are successful then adds the image to the database file storage
+    //TODO: Find name of public repo for credit
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -108,6 +112,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    //Uploads the image to the database file storage with the file name generated with the current
+    //user's UID and .jpeg extension
     private void UpdateProfilePicture() {
         StorageReference imageFilepath = FirebaseStorage.getInstance().getReference("Profile Pictures/"+uid+".jpeg");
         imageFilepath.getDownloadUrl()
@@ -121,6 +127,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
+    //Sets onclick listeners
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.update_settings_button:
@@ -134,10 +141,13 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    //Attempts to push the data entered to the database to update the current user's entry
     private void UpdateSettings() {
+        //Gets the text from the user edittexts
         String username = usernameInput.getText().toString().trim();
         String gymName = gymNameInput.getText().toString().trim();
 
+        //Will reject if the information is empty
         if (username.isEmpty()) {
             Toast.makeText(this, "Please enter a user name", Toast.LENGTH_SHORT).show();
         }
@@ -150,6 +160,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             userMap.put("name", username);
             userMap.put("gym", gymName);
 
+            //Updates database using local map variable for key/value pairs
             databaseReference.child("Users").child(uid).setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -165,6 +176,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    //Sends the user to the Main Activity
     private void SendUserToMain() {
         Intent settingsIntent = new Intent(SettingsActivity.this, MainActivity.class);
         settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -172,6 +184,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         finish();
     }
 
+    //Gets the user data from the database for use by the Settings UI
     private void GetUserData() {
         databaseReference.child("Users").child(uid).addValueEventListener(new ValueEventListener() {
             @Override

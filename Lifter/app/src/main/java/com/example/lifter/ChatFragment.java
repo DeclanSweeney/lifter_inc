@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Empty chat fragment for completion upon finishing contact functionality
  */
 public class ChatFragment extends Fragment {
-
     public ChatFragment() {
         // Required empty public constructor
     }

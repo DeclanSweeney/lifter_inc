@@ -57,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     @Override
+    //Sets on click listener for button/ links
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
@@ -69,10 +70,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    //Called to create a new entry within the database for a new user
+    //Firebase user auth handles account duplication requests and all possible errors for now
     private void CreateNewAccount() {
         final String userEmail = emailInput.getText().toString().trim();
         String userPassword = passwordInput.getText().toString().trim();
 
+        //If the user or password is empty then it will return an error
+        //TODO: Add email verification and add password length rules
         if (userEmail.isEmpty()) {
             Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
         }
@@ -85,6 +90,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             progressDialog.setCanceledOnTouchOutside(true);
             progressDialog.show();
 
+            //Creates the user entry in the database
             firebaseAuth.createUserWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -106,6 +112,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    //Sends the user to Main Activity
     private void SendUserToMain() {
         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
