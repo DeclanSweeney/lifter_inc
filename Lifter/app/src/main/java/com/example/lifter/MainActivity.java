@@ -19,6 +19,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import androidx.viewpager.widget.ViewPager;
+
+import com.example.lifter.progress.ProgressActivity;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
 
@@ -72,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         switch (v.getId()) {
             case R.id.button_calendar:
+                Toast.makeText(this, "Calendar", Toast.LENGTH_SHORT).show();
                 intent = new Intent(MainActivity.this, CalendarActivity.class);
                 startActivity(intent);
                 break;

@@ -36,4 +36,14 @@
     <string name="contact_name_text">Contact name</string>
     <string name="to_do">TODO</string>
     <string name="find_a_gym_buddy">Find a gym buddy</string>
+    <string name="title_activity_progress_gallery">ProgressGallery</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="created_at" />
 </resources>
