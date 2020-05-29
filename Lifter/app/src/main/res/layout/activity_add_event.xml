@@ -59,20 +59,13 @@
             android:orientation="vertical">
 
             <CheckBox
-                android:id="@+id/checkLeg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:tag="Leg"
-                android:onClick="onCheckboxClicked"
-                android:text="Leg" />
-
-            <CheckBox
                 android:id="@+id/checkChest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:tag="Chest"
                 android:onClick="onCheckboxClicked"
                 android:text="Chest" />
+
 
             <CheckBox
                 android:id="@+id/checkBack"
@@ -83,20 +76,31 @@
                 android:text="Back" />
 
             <CheckBox
-                android:id="@+id/checkCore"
+                android:id="@+id/checkBicep"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tag="Core"
+                android:tag="Bicep"
                 android:onClick="onCheckboxClicked"
-                android:text="Core" />
+                android:text="Bicep" />
+
 
             <CheckBox
-                android:id="@+id/checkArms"
+                android:id="@+id/checkTricep"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tag="Arms"
+                android:tag="Tricep"
                 android:onClick="onCheckboxClicked"
-                android:text="Arms" />
+                android:text="Tricep" />
+
+            <CheckBox
+                android:id="@+id/checkLeg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="Leg"
+                android:onClick="onCheckboxClicked"
+                android:text="Leg" />
+
+
 
         </LinearLayout>
 

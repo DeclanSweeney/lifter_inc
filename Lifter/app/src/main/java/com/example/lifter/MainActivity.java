@@ -1,8 +1,5 @@
 package com.example.lifter;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,8 +7,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.example.lifter.progress.ProgressActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,10 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import androidx.viewpager.widget.ViewPager;
-
-import com.example.lifter.progress.ProgressActivity;
-import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
 
@@ -76,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         switch (v.getId()) {
             case R.id.button_calendar:
-                Toast.makeText(this, "Calendar", Toast.LENGTH_SHORT).show();
                 intent = new Intent(MainActivity.this, CalendarActivity.class);
                 startActivity(intent);
                 break;

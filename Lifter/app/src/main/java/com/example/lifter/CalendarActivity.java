@@ -28,7 +28,7 @@ public class CalendarActivity extends AppCompatActivity {
     private String selectedDate;
     FloatingActionButton addEvent, addSuggestedEvent;
     LinearLayout eventLayout, workOutLay, suggesteventLayout, suggestedDayLay;
-    String[] workOutActivity = new String[]{"Leg", "Chest", "Back", "Core", "Arms"};
+    String[] workOutActivity = new String[]{ "Chest", "Back", "Bicep", "Tricep","Leg"};
 
 
     @Override

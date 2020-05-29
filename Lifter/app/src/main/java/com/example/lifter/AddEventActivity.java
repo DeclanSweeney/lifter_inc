@@ -30,7 +30,7 @@ public class AddEventActivity extends AppCompatActivity {
     static TextView buttonDate;
     private static String selectedDate;
     private mySQLiteDBHandler dbHandler;
-    CheckBox checkLeg, checkChest, checkBack, checkCore, checkArms;
+    CheckBox checkChest, checkBack, checkBicep, checkTricep,checkLeg;
 
     ArrayList<String> list;
 
@@ -44,11 +44,11 @@ public class AddEventActivity extends AppCompatActivity {
         buttonSave = findViewById(R.id.buttonSave);
         buttonDate = findViewById(R.id.buttonDate);
 
-        checkLeg = findViewById(R.id.checkLeg);
         checkChest = findViewById(R.id.checkChest);
         checkBack = findViewById(R.id.checkBack);
-        checkCore = findViewById(R.id.checkCore);
-        checkArms = findViewById(R.id.checkArms);
+        checkBicep = findViewById(R.id.checkBicep);
+        checkTricep = findViewById(R.id.checkTricep);
+        checkLeg = findViewById(R.id.checkLeg);
 
         list = new ArrayList<>();
 
@@ -141,13 +141,6 @@ public class AddEventActivity extends AppCompatActivity {
         boolean checked = ((CheckBox) view).isChecked();
 
         switch (view.getId()) {
-            case R.id.checkLeg:
-                if(checked){
-                    list.add(checkLeg.getTag().toString());
-                }else {
-                    list.remove(checkLeg.getTag().toString());
-                }
-                break;
             case R.id.checkChest:
                 if(checked){
                     list.add(checkChest.getTag().toString());
@@ -164,21 +157,27 @@ public class AddEventActivity extends AppCompatActivity {
                 }
 
                 break;
-            case R.id.checkCore:
+            case R.id.checkBicep:
                 if(checked){
-                    list.add(checkCore.getTag().toString());
+                    list.add(checkBicep.getTag().toString());
                 }else {
-                    list.remove(checkCore.getTag().toString());
+                    list.remove(checkBicep.getTag().toString());
                 }
                 break;
-            case R.id.checkArms:
+            case R.id.checkTricep:
                 if(checked){
-                    list.add(checkArms.getTag().toString());
+                    list.add(checkTricep.getTag().toString());
                 }else {
-                    list.remove(checkArms.getTag().toString());
+                    list.remove(checkTricep.getTag().toString());
                 }
                 break;
-
+            case R.id.checkLeg:
+                if(checked){
+                    list.add(checkLeg.getTag().toString());
+                }else {
+                    list.remove(checkLeg.getTag().toString());
+                }
+                break;
         }
 
     }
