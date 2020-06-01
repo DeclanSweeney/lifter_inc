@@ -7,6 +7,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,17 @@ class RecyclerWorkoutViewHolder extends RecyclerView.ViewHolder implements View.
     // need to use the interface
     private WorkoutItemClickListener workoutitemClickListener;
 
+    // this is to allow a small window the exercises
+    public interface workoutItemClickListener{
+        void onItemClick(int position);
+    }
+
+    //for the onclickItemListener
+    public void setOnItemClickListener(workoutItemClickListener listener){
+        workoutitemClickListener = (WorkoutItemClickListener) listener;
+    }
+
+
     // this is what holds the view so we need the images
     // and txt
     public RecyclerWorkoutViewHolder(View itemView){
@@ -29,7 +41,12 @@ class RecyclerWorkoutViewHolder extends RecyclerView.ViewHolder implements View.
         image = (ImageView)itemView.findViewById(R.id.ex_image);
         text = (TextView)itemView.findViewById(R.id.ex_name);
 
-        itemView.setOnClickListener(this);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+
+            }
+        });
     }
 
     //setter for the interface as the object is private

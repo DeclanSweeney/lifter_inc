@@ -66,7 +66,8 @@
         app:layout_constraintVertical_bias="0.715">
 
 
-        <androidx.recyclerview.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <androidx.recyclerview.widget.RecyclerView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/for_ex"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

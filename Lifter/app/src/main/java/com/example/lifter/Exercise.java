@@ -2,6 +2,9 @@ package com.example.lifter;
 //TODO: double base weight, target weight ,Enumeration Difficulty
 // Enumeration area workout
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Exercise {
     //variable
     //image if needed
@@ -9,12 +12,28 @@ public class Exercise {
     private String ex_name,description,tips;
 
     //for both the user and exercise
-    private double baseweigth,targetweight;
+    private double baseweigth,targetweight,bodyWeight;
 
     //for different type of lists
-    private enum difficulty{EASY,MEDIUM, HARD};
-    private enum exerciseType{CHEST,BACK,BICEP,TRICEP,LEGS};
+    //need to store into the database
+    private ArrayList<String> Diffculty = new ArrayList<>(Arrays.asList("BEGINNER","MEDIUM","HARD"));
+    private ArrayList<String> exType = new ArrayList<>(Arrays.asList("CHEST","BACK","BICEP","TRICEP","LEGS"));
 
+
+    //place holder for now
+    private String diffcuity;
+    private String ExType;
+
+
+    public Exercise(int img, String name, String desc, String tip, String diff, String ExType,Double bodyWeight){
+        this.img_ex = img;
+        this.ex_name = name;
+        this.description = desc;
+        this.tips = tip;
+        this.diffcuity = diff;
+        this.ExType = ExType;
+        this.bodyWeight = bodyWeight;
+    }
 
     public String getDescription() {
         return description;
@@ -36,6 +55,7 @@ public class Exercise {
         return baseweigth;
     }
 
+
     public void setBaseweigth(double baseweigth) {
         this.baseweigth = baseweigth;
     }
@@ -46,13 +66,6 @@ public class Exercise {
 
     public void setTargetweight(double targetweight) {
         this.targetweight = targetweight;
-    }
-
-    public Exercise(int img, String name, String desc, String tip){
-        this.img_ex = img;
-        this.ex_name = name;
-        this.description = desc;
-        this.tips = tip;
     }
 
     //getter and setters
