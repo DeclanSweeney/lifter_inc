@@ -4,37 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProgressActivity">
+    tools:context=".progress.ProgressActivity">
 
-    <Button
-        android:id="@+id/button_take_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="92dp"
-        android:text="Take Photo"
-        app:layout_constraintBottom_toTopOf="@+id/button_view_progress_photos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="252dp"
-        android:layout_height="192dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_take_photo"
+        android:id="@+id/photo_thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerInside"
+        />
 
-    <Button
-        android:id="@+id/button_view_progress_photos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="152dp"
-        android:text="View Progress Photos"
+    <androidx.core.widget.NestedScrollView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.464"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photo_thumbnail"
+        tools:context=".progress.ProgressActivity"
+        tools:showIn="@layout/activity_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <fragment
+            android:id="@+id/main_fragment"
+            android:name="com.example.lifter.progress.ProgressPhotoGalleryFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_progress_photo_gallery_list" />
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_take_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
