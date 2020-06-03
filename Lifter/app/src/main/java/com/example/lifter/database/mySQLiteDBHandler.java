@@ -43,7 +43,7 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertNote(String note, String event, String desc,String listwork) {
+    public long insertNote(String note, String event, String desc,String listwork,String status) {
         // get writable database as we want to write data
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -54,6 +54,7 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         values.put(Note.COLUMN_EVENT, event);
         values.put(Note.COLUMN_DESC, desc);
         values.put(Note.COLUMN_WORK, listwork);
+        values.put(Note.COLUMN_STATUS, status);
 
         // insert row
         long id = db.insert(Note.TABLE_NAME, null, values);
@@ -70,7 +71,7 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(Note.TABLE_NAME,
-                new String[]{Note.COLUMN_ID, Note.COLUMN_DATE, Note.COLUMN_EVENT, Note.COLUMN_DESC, Note.COLUMN_WORK},
+                new String[]{Note.COLUMN_ID, Note.COLUMN_DATE, Note.COLUMN_EVENT, Note.COLUMN_DESC, Note.COLUMN_WORK,Note.COLUMN_STATUS},
                 Note.COLUMN_DATE + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
@@ -85,7 +86,8 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(Note.COLUMN_DATE)),
                     cursor.getString(cursor.getColumnIndex(Note.COLUMN_EVENT)),
                     cursor.getString(cursor.getColumnIndex(Note.COLUMN_DESC)),
-                    cursor.getString(cursor.getColumnIndex(Note.COLUMN_WORK)));
+                    cursor.getString(cursor.getColumnIndex(Note.COLUMN_WORK)),
+                    cursor.getString(cursor.getColumnIndex(Note.COLUMN_STATUS)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -192,15 +194,15 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         return count;
     }
 
-    public int updateNote(Note note) {
+    public int updateNote(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(Note.COLUMN_EVENT, note.getEvent());
+        values.put(Note.COLUMN_STATUS,"1");
 
         // updating row
-        return db.update(Note.TABLE_NAME, values, Note.COLUMN_ID + " = ?",
-                new String[]{String.valueOf(note.getId())});
+        return db.update(Note.TABLE_NAME, values, Note.COLUMN_DATE + "=?",
+                new String[]{String.valueOf(id)});
     }
 
     public void deleteNote(Note note) {

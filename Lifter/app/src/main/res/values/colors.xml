@@ -6,4 +6,5 @@
 
     <color name="colorBlack">#000000</color>
     <color name="colorRed">#800000</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>

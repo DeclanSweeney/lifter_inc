@@ -94,7 +94,7 @@ public class AddEventActivity extends AppCompatActivity {
 
     /// =============== Insert data on table  ============//
     public void InsertDatabase() {
-        dbHandler.insertNote(selectedDate, textInputEditText.getText().toString(), editDesc.getText().toString(),list.toString());
+        dbHandler.insertNote(selectedDate, textInputEditText.getText().toString(), editDesc.getText().toString(),list.toString(),"0");
         finish();
     }
 
