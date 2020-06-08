@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddEventActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/editDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Description"
+            android:inputType="textMultiLine" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Date :"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/buttonDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="25dp"
+                android:text="Choose Date"
+                android:textSize="18dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/checkChest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="Chest"
+                android:onClick="onCheckboxClicked"
+                android:text="Chest" />
+
+
+            <CheckBox
+                android:id="@+id/checkBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="Back"
+                android:onClick="onCheckboxClicked"
+                android:text="Back" />
+
+            <CheckBox
+                android:id="@+id/checkBicep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="Bicep"
+                android:onClick="onCheckboxClicked"
+                android:text="Bicep" />
+
+
+            <CheckBox
+                android:id="@+id/checkTricep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="Tricep"
+                android:onClick="onCheckboxClicked"
+                android:text="Tricep" />
+
+            <CheckBox
+                android:id="@+id/checkLeg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="Leg"
+                android:onClick="onCheckboxClicked"
+                android:text="Leg" />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|bottom">
+
+            <Button
+                android:id="@+id/buttonSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:layout_marginTop="25dp"
+                android:text="@string/save" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

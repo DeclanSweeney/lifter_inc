@@ -4,15 +4,136 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".SurveyActivity">
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="415dp"
+        android:layout_height="120dp"
+        android:background="#035302"
+        android:fadingEdge="vertical"
+        android:foregroundTint="#050101"
+        app:layout_constraintBottom_toTopOf="@+id/b_option1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <TextView
+            android:id="@+id/headerText"
+            android:layout_width="346dp"
+            android:layout_height="95dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="25dp"
+            android:fontFamily="sans-serif"
+            android:text="Quick Questionaire on your current workout habits"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/Question"
+        android:layout_width="266dp"
+        android:layout_height="52dp"
+        android:text="Question,Question,Question"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/b_option1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+    <Button
+        android:id="@+id/b_option1"
+        android:layout_width="282dp"
+        android:layout_height="76dp"
+        android:background="#FFFFFF"
+        android:clickable="true"
+        android:longClickable="false"
+        android:text="A"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.359" />
+
+    <Button
+        android:id="@+id/b_option2"
+        android:layout_width="282dp"
+        android:layout_height="76dp"
+        android:background="#FFFFFF"
+        android:text="B"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/b_option1"
+        app:layout_constraintVertical_bias="0.075" />
+
+    <Button
+        android:id="@+id/b_option3"
+        android:layout_width="282dp"
+        android:layout_height="76dp"
+        android:background="#FFFFFF"
+        android:text="C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/b_option2"
+        app:layout_constraintVertical_bias="0.13" />
+
+    <Button
+        android:id="@+id/b_Submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Survey Activity"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="86dp"
+        android:text="Submit"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/b_option3"
+        app:layout_constraintVertical_bias="0.555" />
+
+    <Button
+        android:id="@+id/b_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="89dp"
+        android:layout_marginEnd="72dp"
+        android:background="#FFFFFF"
+        android:text="Reset"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/b_option3"
+        app:layout_constraintVertical_bias="0.536" />
+
+    <TextView
+        android:id="@+id/ShowOutput"
+        android:layout_width="269dp"
+        android:layout_height="85dp"
+        android:background="#FDFBFB"
+        android:text="TextView"
+        android:textColor="#000000"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
