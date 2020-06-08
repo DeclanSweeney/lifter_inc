@@ -1,5 +1,7 @@
 package com.example.lifter.database;
 
+import java.util.Date;
+
 public class Note {
     public static final String TABLE_NAME = "notes";
 

@@ -98,6 +98,39 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         return note;
     }
 
+    public ArrayList<Note> getAllNote() {
+        // get readable database as we are not inserting anything
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<Note> notes = new ArrayList<Note>();
+
+        Cursor cursor = db.query(Note.TABLE_NAME,
+                new String[]{Note.COLUMN_ID, Note.COLUMN_DATE, Note.COLUMN_EVENT, Note.COLUMN_DESC, Note.COLUMN_WORK,Note.COLUMN_STATUS},
+                 null,null, null, null, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+
+                try {
+                    Note note = new Note(
+                            cursor.getInt(cursor.getColumnIndex(Note.COLUMN_ID)),
+                            cursor.getString(cursor.getColumnIndex(Note.COLUMN_DATE)),
+                            cursor.getString(cursor.getColumnIndex(Note.COLUMN_EVENT)),
+                            cursor.getString(cursor.getColumnIndex(Note.COLUMN_DESC)),
+                            cursor.getString(cursor.getColumnIndex(Note.COLUMN_WORK)),
+                            cursor.getString(cursor.getColumnIndex(Note.COLUMN_STATUS)));
+                    notes.add(note);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } while (cursor.moveToNext());
+        }
+
+        // close the db connection
+        cursor.close();
+        return notes;
+    }
+
     public long insertSuggested(String day) {
         // get writable database as we want to write data
         SQLiteDatabase db = this.getWritableDatabase();
