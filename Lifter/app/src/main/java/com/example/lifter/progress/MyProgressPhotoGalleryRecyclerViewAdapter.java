@@ -43,6 +43,17 @@ public class MyProgressPhotoGalleryRecyclerViewAdapter extends RecyclerView.Adap
                 }
             }
         });
+
+        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                if (null != mListener) {
+                    mListener.onLongPress(holder.mItem);
+                }
+                return true;
+            }
+        });
     }
 
     @Override

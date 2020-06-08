@@ -1,4 +1,5 @@
 package com.example.lifter.progress;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -6,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.lifter.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -101,8 +104,11 @@ public class ProgressActivity extends AppCompatActivity implements ProgressPhoto
     @Override
     public void onListFragmentInteraction(final Photo item) {
         thumbnailImageView.setImageURI(item.photoPath);
+    }
 
-      /*  new AlertDialog.Builder(this)
+    @Override
+    public void onLongPress(final Photo item) {
+           new AlertDialog.Builder(this)
                 .setTitle("Progress Photo")
                 .setMessage("Delete this progress photo?")
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -123,7 +129,7 @@ public class ProgressActivity extends AppCompatActivity implements ProgressPhoto
                         }
                     }
                 })
-                .setNegativeButton(android.R.string.no, null).show();*/
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
     // This method will show the camera app and allow you to take a photo.

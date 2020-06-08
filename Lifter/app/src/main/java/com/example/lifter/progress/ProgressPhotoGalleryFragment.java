@@ -62,5 +62,6 @@ public class ProgressPhotoGalleryFragment extends Fragment {
 
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(Photo item);
+        void onLongPress(Photo photo);
     }
 }
