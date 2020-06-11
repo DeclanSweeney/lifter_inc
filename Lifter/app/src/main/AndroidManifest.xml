@@ -5,28 +5,36 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
 
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
 
+
     <application
+        android:name=".LifterApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:process=":Me"
         android:theme="@style/AppTheme">
         <activity android:name=".progress.ProgressActivity" />
-        <activity android:name=".specific_exercise"/>
+        <activity android:name=".specific_exercise" />
         <activity android:name=".ListExercise" />
         <activity android:name=".ProgressActivity" />
-        <activity android:name=".GymBuddyFinderActivity"/>
+        <activity android:name=".GymBuddyFinderActivity" />
         <activity android:name=".GroupChatActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".SuggestedEventActivity"/>
+        <activity android:name=".SuggestedEventActivity" />
         <activity android:name=".AddEventActivity" />
         <activity android:name=".SurveyActivity" />
         <activity android:name=".WorkoutActivity" />
@@ -51,6 +59,22 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <receiver android:name = ".helper.MyNotificationPublisher" />
+
+        <service
+            android:name=".helper.NotificationService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+        <receiver android:name=".helper.MyReceiver">
+            <intent-filter>
+                <action android:name="com.example.lifter" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

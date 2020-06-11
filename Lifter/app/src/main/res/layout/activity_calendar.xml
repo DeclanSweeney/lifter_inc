@@ -55,10 +55,8 @@
         android:visibility="gone">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/eventCardLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
             android:elevation="3dp"
             android:orientation="vertical"
             app:cardCornerRadius="5dp"
@@ -67,7 +65,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/eventCardLayout"
+                android:background="@color/colorWhite">
 
                 <LinearLayout
                     android:layout_width="match_parent"

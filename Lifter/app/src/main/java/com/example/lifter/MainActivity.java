@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         InitializeFields();
-        VerifyUser();
+       // VerifyUser();
     }
 
     //If the user is not logged in, send them back to the Login Activity
@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
 
-        if (firebaseUser == null) {
+       /* if (firebaseUser == null) {
             SendUserToLogin();
-        }
+        }*/
     }
 
     //Send user to login activity and disable return via back button

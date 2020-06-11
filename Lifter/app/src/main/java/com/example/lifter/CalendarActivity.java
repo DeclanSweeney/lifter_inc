@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import com.example.lifter.database.Note;
 import com.example.lifter.database.mySQLiteDBHandler;
@@ -33,7 +32,7 @@ public class CalendarActivity extends AppCompatActivity {
     LinearLayout eventLayout, workOutLay, suggesteventLayout, suggestedDayLay;
     String[] workOutActivity = new String[]{"Leg", "Chest", "Back", "Core", "Arms"};
 
-    private CardView eventCardLayout;
+    private LinearLayout eventCardLayout;
     private Button buttonDone;
     private Note note=new Note();
 
@@ -114,10 +113,10 @@ public class CalendarActivity extends AppCompatActivity {
     public void ReadDatabase(String selectedDate) {
         if (dbHandler.getNote(selectedDate) != null) {
             if (dbHandler.getNote(selectedDate).getStatus().equals("1")) {
-                eventCardLayout.setCardBackgroundColor(getResources().getColor(R.color.colorAccent));
+                eventCardLayout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 buttonDone.setVisibility(View.GONE);
-            } else {
-                eventCardLayout.setCardBackgroundColor(getResources().getColor(R.color.colorWhite));
+            }else {
+                eventCardLayout.setBackgroundColor(getResources().getColor(R.color.colorWhite));
                 buttonDone.setVisibility(View.VISIBLE);
             }
             eventLayout.setVisibility(View.VISIBLE);
