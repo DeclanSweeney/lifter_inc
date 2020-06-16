@@ -1,15 +1,22 @@
 package com.example.lifter;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.lifter.database.mySQLiteDBHandler;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class SuggestedEventActivity extends AppCompatActivity {
 
@@ -18,7 +25,16 @@ public class SuggestedEventActivity extends AppCompatActivity {
 
     ArrayList<String> list;
     Button buttonSubmit;
+    TextView buttonTime;
     private mySQLiteDBHandler dbHandler;
+
+    private static String selectedTime;
+
+    private int mHour;
+    private int mMinute;
+
+    private int hour;
+    private int minutes;
 
 
     @Override
@@ -34,6 +50,7 @@ public class SuggestedEventActivity extends AppCompatActivity {
         checkFri = findViewById(R.id.checkFri);
         checkSat = findViewById(R.id.checkSat);
         buttonSubmit = findViewById(R.id.buttonSubmit);
+        buttonTime = findViewById(R.id.buttonTime);
 
         list = new ArrayList<>();
 
@@ -43,6 +60,27 @@ public class SuggestedEventActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+
+        final Calendar c = Calendar.getInstance();
+
+        //================== Time Picker ======================//
+        String time = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+        buttonTime.setText(time);
+
+
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+
+        selectedTime=mHour+"_"+mMinute;
+
+        buttonTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickTime();
+            }
+        });
 
 
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
@@ -55,10 +93,12 @@ public class SuggestedEventActivity extends AppCompatActivity {
 
     }
 
+
+
     /// =============== Insert data on table  ============//
     public void InsertDatabase() {
         dbHandler.clearSuggestedList();
-        dbHandler.insertSuggested(list.toString());
+        dbHandler.insertSuggested(list.toString(),selectedTime);
         finish();
     }
 
@@ -123,5 +163,37 @@ public class SuggestedEventActivity extends AppCompatActivity {
         }
 
     }
+
+    private void pickTime() {
+        final Calendar c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+        // Launch Time Picker Dialog
+        TimePickerDialog timePickerDialog = new TimePickerDialog(SuggestedEventActivity.this,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minute) {
+
+                        String h = hourOfDay + "", m = minute + "";
+
+
+                        if (h.length() == 1) h = "0" + h;
+                        if (m.length() == 1) m = "0" + m;
+
+                        String time = h + ":" + m;
+                        buttonTime.setText(time);
+
+                        hour = hourOfDay;
+                        minutes = minute;
+
+                        selectedTime=hourOfDay+"_"+minute;
+
+                    }
+                }, mHour, mMinute, false);
+        timePickerDialog.show();
+    }
+
 
 }

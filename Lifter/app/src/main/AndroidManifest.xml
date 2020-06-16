@@ -15,7 +15,6 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
-
     <application
         android:name=".LifterApplication"
         android:allowBackup="true"

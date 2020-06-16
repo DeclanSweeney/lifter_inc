@@ -21,11 +21,16 @@ import androidx.core.app.NotificationCompat;
 import com.example.lifter.R;
 import com.example.lifter.database.mySQLiteDBHandler;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class NotificationService extends Service {
+
+    private static final String TAG = "NotificationService";
 
     public static final int notify = 5000;  //interval between two services(Here Service run every 5 Minute)
     private Handler mHandler = new Handler();   //run on another Thread to avoid crash
@@ -47,7 +52,9 @@ public class NotificationService extends Service {
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
     private final static String default_notification_channel_id = "default";
     private String eventName;
-    private String time;
+
+    String[] workOutActivity = new String[]{};
+    private String randomName;
 
 
     public NotificationService(Context applicationContext) {
@@ -109,7 +116,7 @@ public class NotificationService extends Service {
         initializeTimerTask();
 
         //schedule the timer, to wake up every 1 second
-        timer.schedule(timerTask, 5000, 3600000); //
+        timer.schedule(timerTask, 5000, 5000); //
         // timer.schedule(timerTask, notify, notify); //
     }
 
@@ -133,7 +140,11 @@ public class NotificationService extends Service {
 
                 ReadDatabase(currentDate);
 
-                //scheduleNotification(getNotification( "5 second delay" ) , 5000 ) ;
+
+                c.set(year, month, day);
+                String[] days = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+                String dayToNotify = days[c.get(Calendar.DAY_OF_WEEK) - 1];
+                ReadAllSuggested(dayToNotify);
 
 
             }
@@ -151,34 +162,67 @@ public class NotificationService extends Service {
     public void ReadDatabase(String selectedDate) {
         if (dbHandler.getNote(selectedDate) != null) {
 
-            time = dbHandler.getNote(currentDate).getTime();
             eventName = dbHandler.getNote(currentDate).getWork().replace("[", "").replace("]", "");
 
+            String time = dbHandler.getNote(currentDate).getTime();
             String[] str = time.split("_");
-
             mHour = Integer.parseInt(str[0]);
-
             mMinute = Integer.parseInt(str[1]);
-
-            startNotification(mHour, mMinute);
-
-            // scheduleNotification(getNotification( "5 second delay" ) , 5000 ) ;
-
-            // Toast.makeText(NotificationService.this, "Service Started" + dbHandler.getNote(currentDate).getTime() + " " + mHour + "" + mMinute, Toast.LENGTH_LONG).show();
+            startNotification(mHour, mMinute, false);
 
         }
 
     }
 
+    public void ReadAllSuggested(String dayOfWeek) {
 
-    public void startNotification(int hour, int minute) {
+        dbHandler.getAllSuggestDay();
+        if (dbHandler.getAllSuggestDay() != null) {
+            if (dbHandler.getAllSuggestDay().size() > 0) {
+
+                String days = dbHandler.getAllSuggestDay().get(0).getDay().replace("[", "").replace("]", "");
+                ArrayList<String> myList = new ArrayList<>(Arrays.asList(days.split(",")));
+                for (int i = 0; i < myList.size(); i++) {
+                    Log.e(TAG, "ReadAllSuggested: " + myList.get(i).trim());
+                    Log.e(TAG, "dayOfWeek: " + dayOfWeek);
+                    if (myList.get(i).trim().equals(dayOfWeek)) {
+
+                        if (myList.size() <= 2) {
+                            workOutActivity = getResources().getStringArray(R.array.less_than_two);
+                            int randomIndex = new Random().nextInt(workOutActivity.length);
+                            randomName = workOutActivity[randomIndex];
+                        } else if (myList.size() == 3) {
+                            workOutActivity = getResources().getStringArray(R.array.equal_three);
+                            int randomIndex = new Random().nextInt(workOutActivity.length);
+                            randomName = workOutActivity[randomIndex];
+                        } else {
+                            workOutActivity = getResources().getStringArray(R.array.more_than_three);
+                            int randomIndex = new Random().nextInt(workOutActivity.length);
+                            randomName = workOutActivity[randomIndex];
+                        }
+
+                        String time = dbHandler.getAllSuggestDay().get(0).getTime();
+                        String[] str = time.split("_");
+                        mHour = Integer.parseInt(str[0]);
+                        mMinute = Integer.parseInt(str[1]);
+                        startNotification(mHour, mMinute, true);
+
+                    }
+                }
+            }
+        }
+
+    }
+
+
+    public void startNotification(int hour, int minute, boolean isSuggested) {
 
         Calendar alarmFor = Calendar.getInstance();
         alarmFor.set(Calendar.HOUR_OF_DAY, hour);
         alarmFor.set(Calendar.MINUTE, minute);
         alarmFor.set(Calendar.SECOND, 0);
 
-        Long timeMillis=alarmFor.getTimeInMillis()-1800000;
+        Long timeMillis = alarmFor.getTimeInMillis() - 1800000;
 
         Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
@@ -188,41 +232,23 @@ public class NotificationService extends Service {
         if (alarmFor.getTimeInMillis() != 0) {
             if (c.getTimeInMillis() == timeMillis) {
                 //createNotification();
-                String timeData  = time.replace("_",":");
-                scheduleNotification(getNotification(String.format(getResources().getString(R.string.notification_des), eventName, timeData)), 0, timeMillis);
+                String h = hour + "", m = minute + "";
+
+                if (h.length() == 1) h = "0" + h;
+                if (m.length() == 1) m = "0" + m;
+
+                String timeData = h + ":" + m;
+
+                if (isSuggested) {
+                    scheduleNotification(getNotification(String.format(getResources().getString(R.string.notification_des), randomName, timeData)), 0, timeMillis);
+                } else {
+                    scheduleNotification(getNotification(String.format(getResources().getString(R.string.notification_des), eventName, timeData)), 0, timeMillis);
+                }
+
             }
         }
 
-
-        /*Intent MyIntent = new Intent(getApplicationContext(), MyReceiver.class);
-        PendingIntent MyPendIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, MyIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        AlarmManager MyAlarm = (AlarmManager) getSystemService(ALARM_SERVICE);
-        MyAlarm.set(AlarmManager.RTC_WAKEUP, alarmFor.getTimeInMillis(), MyPendIntent);*/
-
     }
-
-/*
-    public void createNotification() {
-        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Notification.Builder builder = new Notification.Builder(this);
-        builder.setContentTitle("It's time to exercise");
-        builder.setContentText("You have to done Leg ,Chest and Back by today.");
-        builder.setSound(soundUri);
-        builder.setAutoCancel(true);
-        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
-
-        Intent notifyIntent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notifyIntent, 0);
-        //to be able to launch your activity from the notification
-        builder.setContentIntent(pendingIntent);
-        Notification notificationCompat = builder.build();
-        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
-        managerCompat.notify(0, notificationCompat);
-
-    }
-*/
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void startMyOwnForeground() {
@@ -263,6 +289,7 @@ public class NotificationService extends Service {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id);
         builder.setContentTitle(getResources().getString(R.string.exercise));
         builder.setContentText(content);
+        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(content));
         builder.setSmallIcon(R.drawable.ic_launcher_foreground);
         builder.setAutoCancel(true);
         builder.setChannelId(NOTIFICATION_CHANNEL_ID);

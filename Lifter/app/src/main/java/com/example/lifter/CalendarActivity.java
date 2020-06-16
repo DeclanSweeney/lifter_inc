@@ -30,11 +30,13 @@ public class CalendarActivity extends AppCompatActivity {
     private String selectedDate;
     FloatingActionButton addEvent, addSuggestedEvent;
     LinearLayout eventLayout, workOutLay, suggesteventLayout, suggestedDayLay;
-    String[] workOutActivity = new String[]{"Leg", "Chest", "Back", "Core", "Arms"};
+    // String[] workOutActivity = new String[]{"Leg", "Chest", "Back", "Core", "Arms"};
+    String[] workOutActivity = new String[]{};
 
     private LinearLayout eventCardLayout;
     private Button buttonDone;
-    private Note note=new Note();
+    private Note note = new Note();
+    private String randomName;
 
 
     @Override
@@ -115,7 +117,7 @@ public class CalendarActivity extends AppCompatActivity {
             if (dbHandler.getNote(selectedDate).getStatus().equals("1")) {
                 eventCardLayout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 buttonDone.setVisibility(View.GONE);
-            }else {
+            } else {
                 eventCardLayout.setBackgroundColor(getResources().getColor(R.color.colorWhite));
                 buttonDone.setVisibility(View.VISIBLE);
             }
@@ -148,8 +150,20 @@ public class CalendarActivity extends AppCompatActivity {
                     Log.e(TAG, "ReadAllSuggested: " + myList.get(i).trim());
                     Log.e(TAG, "dayOfWeek: " + dayOfWeek);
                     if (myList.get(i).trim().equals(dayOfWeek)) {
-                        int randomIndex = new Random().nextInt(workOutActivity.length);
-                        String randomName = workOutActivity[randomIndex];
+                        if (myList.size() <= 2) {
+                            workOutActivity = getResources().getStringArray(R.array.less_than_two);
+                            int randomIndex = new Random().nextInt(workOutActivity.length);
+                            randomName = workOutActivity[randomIndex];
+                        } else if (myList.size() == 3) {
+                            workOutActivity = getResources().getStringArray(R.array.equal_three);
+                            int randomIndex = new Random().nextInt(workOutActivity.length);
+                            randomName = workOutActivity[randomIndex];
+                        } else {
+                            workOutActivity = getResources().getStringArray(R.array.more_than_three);
+                            int randomIndex = new Random().nextInt(workOutActivity.length);
+                            randomName = workOutActivity[randomIndex];
+                        }
+
                         tvRandomworkPlan.setText(randomName);
                         suggesteventLayout.setVisibility(View.VISIBLE);
                         break;
