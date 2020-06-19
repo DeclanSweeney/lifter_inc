@@ -3,14 +3,33 @@ package com.example.lifter;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Iterator;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -21,8 +40,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  * TODO: Complete this after SPRINT 1 REVIEW
  */
 public class ContactsFragment extends Fragment {
-    private RecyclerView rvContacts;
-    private View contactsFragmentView;
+    private View contactsFragView;
+    private RecyclerView contactsList;
+    private DatabaseReference contactsRef, usersRef;
+    private FirebaseAuth userAuth;
+    private String userUID;
+
 
     public ContactsFragment() {
         // Required empty public constructor
@@ -31,11 +54,11 @@ public class ContactsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        contactsFragmentView = inflater.inflate(R.layout.fragment_contacts, container, false);
+        contactsFragView = inflater.inflate(R.layout.fragment_contacts, container, false);
 
         InitializeFields();
 
-        FloatingActionButton fabAddGymBuddy = contactsFragmentView.findViewById(R.id.find_gym_buddy_fab);
+        FloatingActionButton fabAddGymBuddy = contactsFragView.findViewById(R.id.find_gym_buddy_fab);
         fabAddGymBuddy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +66,7 @@ public class ContactsFragment extends Fragment {
             }
         });
 
-        return contactsFragmentView;
+        return contactsFragView;
     }
 
     private void SendToFindGymBuddyActivity() {
@@ -52,7 +75,81 @@ public class ContactsFragment extends Fragment {
     }
 
     private void InitializeFields() {
-        rvContacts = contactsFragmentView.findViewById(R.id.contacts_recycler_view);
-//        rvContacts.setLayoutManager(new LinearLayoutManager(getContext()));
+        contactsList = (RecyclerView) contactsFragView.findViewById(R.id.contacts_list);
+        contactsList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        userAuth = FirebaseAuth.getInstance();
+        userUID = userAuth.getCurrentUser().getUid();
+        contactsRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userUID).child("Contacts");
+        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseRecyclerOptions<Contacts> options = new  FirebaseRecyclerOptions.Builder<Contacts>()
+                .setQuery(contactsRef, Contacts.class)
+                .build();
+
+        FirebaseRecyclerAdapter<Contacts, ContactsFragment.ReqViewHolder> recyclerAdapter = new FirebaseRecyclerAdapter<Contacts, ContactsFragment.ReqViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull final ContactsFragment.ReqViewHolder holder, int position, @NonNull Contacts model) {
+                holder.username.setText(model.getName());
+                holder.userGym.setText(model.getGym());
+
+                holder.itemView.findViewById(R.id.friend_request_icon).setVisibility(View.INVISIBLE);
+
+                final String list_user_id = getRef(position).getKey();
+                Log.d("key", list_user_id);
+
+                usersRef.child(list_user_id).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            if (dataSnapshot.hasChild("image")) {
+                                final String reqProfileImage = dataSnapshot.child("profile_image").getValue().toString();
+                                Picasso.get().load(reqProfileImage).into(holder.profilePic);
+                            }
+                            final String reqUserName = dataSnapshot.child("name").getValue().toString();
+                            final String reqUserGym = dataSnapshot.child("gym").getValue().toString();
+                            holder.username.setText(reqUserName);
+                            holder.userGym.setText(reqUserGym);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            public ContactsFragment.ReqViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_display_layout, parent, false);
+                ContactsFragment.ReqViewHolder holder = new ContactsFragment.ReqViewHolder(view);
+                return holder;
+            }
+        };
+
+        contactsList.setAdapter(recyclerAdapter);
+        recyclerAdapter.startListening();
+    }
+
+    public static class ReqViewHolder extends RecyclerView.ViewHolder {
+        TextView username, userGym;
+        ImageView reqIcon;
+        CircleImageView profilePic;
+
+        public ReqViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            username = itemView.findViewById(R.id.user_name_text);
+            userGym = itemView.findViewById(R.id.user_gym_name_text);
+            reqIcon = itemView.findViewById(R.id.friend_request_icon);
+            profilePic = itemView.findViewById(R.id.user_image);
+        }
     }
 }

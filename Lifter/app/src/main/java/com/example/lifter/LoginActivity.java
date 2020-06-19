@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText emailInput, passwordInput;
     private TextView forgetPasswordLink, registerAccountLink;
 
+    public boolean isLoggedIn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +76,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent intent;
         switch (v.getId()) {
             case R.id.login_button:
-                UserLogin();
+                //Gets user input from text fields
+                String userEmail = emailInput.getText().toString().trim();
+                String userPassword = passwordInput.getText().toString().trim();
+                UserLogin(userEmail, userPassword);
                 break;
             case R.id.forget_password_link:
                 break;
@@ -86,20 +91,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     //Method for allowing the user to login with their entry to the Firebase Database
-    private void UserLogin() {
-        //Gets user input from text fields
-        String userEmail = emailInput.getText().toString().trim();
-        String userPassword = passwordInput.getText().toString().trim();
+    public void UserLogin(String userEmail, String userPassword) {
+//        //Gets user input from text fields
+//        String userEmail = emailInput.getText().toString().trim();
+//        String userPassword = passwordInput.getText().toString().trim();
 
         //Condition checking for user and password
         //TODO: add check for email verification
-        if (userEmail.isEmpty()) {
-            Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
-        }
-        else if (userPassword.isEmpty() || userPassword.length() < 6) {
-            Toast.makeText(this, "Please enter a valid password", Toast.LENGTH_SHORT).show();
-        }
-        else {
+//        if (userEmail.isEmpty()) {
+//            Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
+//        }
+//        else if (userPassword.isEmpty() || userPassword.length() < 6) {
+//            Toast.makeText(this, "Please enter a valid password", Toast.LENGTH_SHORT).show();
+//        }
+//        else {
+        if (isValidUserPass(userEmail, userPassword)){
             //Attempts to login with credentials compared to the Database
             //If the user exists and their password matches the entry then they will be redirected to
             //the main activity, otherwise they will receive an error in a toast message
@@ -108,8 +114,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         SendUserToMain();
-                        Toast.makeText(LoginActivity.this, "Welcome TODO:ADD_NAME", Toast.LENGTH_SHORT).show();
                         progressDialog.dismiss();
+                        isLoggedIn = true;
                         finish();
                     } else {
                         String errorMessage = Objects.requireNonNull(task.getException()).toString();
@@ -135,5 +141,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         firebaseAuth = FirebaseAuth.getInstance();
 
         progressDialog = new ProgressDialog(this);
+
+        isLoggedIn = false;
+    }
+
+    public boolean isValidUserPass(String username, String password) {
+        boolean isValid;
+        if (username.isEmpty()) {
+            isValid = false;
+            Toast.makeText(this, "Please enter valid email", Toast.LENGTH_SHORT).show();
+        }
+        else if (password.isEmpty() || password.length() < 6) {
+            Toast.makeText(this, "Please enter a password off at least 6 characters", Toast.LENGTH_SHORT).show();
+            isValid = false;
+        } else {
+            isValid = true;
+        }
+        return isValid;
     }
 }
