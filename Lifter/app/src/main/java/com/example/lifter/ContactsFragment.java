@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -42,9 +43,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ContactsFragment extends Fragment {
     private View contactsFragView;
     private RecyclerView contactsList;
-    private DatabaseReference contactsRef, usersRef;
+    private DatabaseReference contactsReference, usersRef;
     private FirebaseAuth userAuth;
     private String userUID;
+    private Map<String, Object> contactMap;
 
 
     public ContactsFragment() {
@@ -80,76 +82,136 @@ public class ContactsFragment extends Fragment {
 
         userAuth = FirebaseAuth.getInstance();
         userUID = userAuth.getCurrentUser().getUid();
-        contactsRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userUID).child("Contacts");
+        contactsReference = FirebaseDatabase.getInstance().getReference().child("Users").child(userUID).child("Contacts");
         usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+
+        contactMap = new HashMap<>();
+        PopulateContactMap();
+    }
+
+    private void PopulateContactMap() {
+        usersRef.child(userUID).child("Contacts").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                GetContactsList(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseRecyclerOptions<Contacts> options = new  FirebaseRecyclerOptions.Builder<Contacts>()
-                .setQuery(contactsRef, Contacts.class)
-                .build();
+
+        PopulateContactMap();
+
+        FirebaseRecyclerOptions<Contacts> options = new FirebaseRecyclerOptions.Builder<Contacts>().setQuery(usersRef, Contacts.class).build();
 
         FirebaseRecyclerAdapter<Contacts, ContactsFragment.ReqViewHolder> recyclerAdapter = new FirebaseRecyclerAdapter<Contacts, ContactsFragment.ReqViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull final ContactsFragment.ReqViewHolder holder, int position, @NonNull Contacts model) {
-                holder.username.setText(model.getName());
-                holder.userGym.setText(model.getGym());
 
-                holder.itemView.findViewById(R.id.friend_request_icon).setVisibility(View.INVISIBLE);
-
-                final String list_user_id = getRef(position).getKey();
-                Log.d("key", list_user_id);
-
-                usersRef.child(list_user_id).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            if (dataSnapshot.hasChild("image")) {
-                                final String reqProfileImage = dataSnapshot.child("profile_image").getValue().toString();
-                                Picasso.get().load(reqProfileImage).into(holder.profilePic);
-                            }
-                            final String reqUserName = dataSnapshot.child("name").getValue().toString();
-                            final String reqUserGym = dataSnapshot.child("gym").getValue().toString();
-                            holder.username.setText(reqUserName);
-                            holder.userGym.setText(reqUserGym);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
 
             @NonNull
             @Override
-            public ContactsFragment.ReqViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            public ReqViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_display_layout, parent, false);
                 ContactsFragment.ReqViewHolder holder = new ContactsFragment.ReqViewHolder(view);
                 return holder;
             }
-        };
 
+            @Override
+            protected void onBindViewHolder(@NonNull final ReqViewHolder holder, int position, @NonNull Contacts model) {
+                holder.itemView.findViewById(R.id.friend_request_icon).setVisibility(View.INVISIBLE);
+
+                final String list_user_id = getRef(position).getKey();
+                DatabaseReference getTypeRef = getRef(position).getRef();
+
+                holder.username.setText(model.getName());
+                holder.userGym.setText(model.getGym());
+                Picasso.get().load(model.getProfile_image()).placeholder(R.drawable.default_profile_icon).into(holder.profilePic);
+            }
+        };
         contactsList.setAdapter(recyclerAdapter);
         recyclerAdapter.startListening();
     }
 
-    public static class ReqViewHolder extends RecyclerView.ViewHolder {
-        TextView username, userGym;
-        ImageView reqIcon;
-        CircleImageView profilePic;
 
-        public ReqViewHolder(@NonNull View itemView) {
-            super(itemView);
+//        FirebaseRecyclerAdapter<Contacts, ContactsFragment.ReqViewHolder> recyclerAdapter = new FirebaseRecyclerAdapter<Contacts, ContactsFragment.ReqViewHolder>(options) {
+//            @Override
+//            protected void onBindViewHolder(@NonNull final ContactsFragment.ReqViewHolder holder, int position, @NonNull Contacts model) {
+//                holder.username.setText(model.getName());
+//                holder.userGym.setText(model.getGym());
+//
+////                holder.itemView.findViewById(R.id.friend_request_icon).setVisibility(View.INVISIBLE);
+//
+////                final String list_user_id = getRef(position).getKey();
+////                Log.d("key", list_user_id);
+////
+////                usersRef.child(list_user_id).addValueEventListener(new ValueEventListener() {
+////                    @Override
+////                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+////                        if (dataSnapshot.exists()) {
+////                            if (dataSnapshot.hasChild("image")) {
+////                                final String reqProfileImage = dataSnapshot.child("profile_image").getValue().toString();
+////                                Picasso.get().load(reqProfileImage).into(holder.profilePic);
+////                            }
+////                            final String reqUserName = dataSnapshot.child("name").getValue().toString();
+////                            final String reqUserGym = dataSnapshot.child("gym").getValue().toString();
+////                            holder.username.setText(reqUserName);
+////                            holder.userGym.setText(reqUserGym);
+////                        }
+////                    }
+////
+////                    @Override
+////                    public void onCancelled(@NonNull DatabaseError databaseError) {
+////
+////                    }
+////                });
+//            }
+//
+//            @NonNull
+//            @Override
+//            public ContactsFragment.ReqViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_display_layout, parent, false);
+//                ContactsFragment.ReqViewHolder holder = new ContactsFragment.ReqViewHolder(view);
+//                return holder;
+//            }
+//        };
+//
+//        contactsList.setAdapter(recyclerAdapter);
+//        recyclerAdapter.startListening();
+//    }
+//
 
-            username = itemView.findViewById(R.id.user_name_text);
-            userGym = itemView.findViewById(R.id.user_gym_name_text);
-            reqIcon = itemView.findViewById(R.id.friend_request_icon);
-            profilePic = itemView.findViewById(R.id.user_image);
+
+        private void GetContactsList (DataSnapshot ds){
+            Iterator it = ds.getChildren().iterator();
+            while (it.hasNext()) {
+                String contact_uid = ((DataSnapshot) it.next()).getKey();
+                Log.d("Iterator ID", contact_uid);
+                assert contact_uid != null;
+                if (ds.child(contact_uid).getValue().toString().equals("request_sent")) {
+                    contactMap.put(contact_uid, "request_sent");
+                }
+            }
+        }
+
+        public static class ReqViewHolder extends RecyclerView.ViewHolder {
+            TextView username, userGym;
+            ImageView reqIcon;
+            CircleImageView profilePic;
+
+            public ReqViewHolder(@NonNull View itemView) {
+                super(itemView);
+
+                username = itemView.findViewById(R.id.user_name_text);
+                userGym = itemView.findViewById(R.id.user_gym_name_text);
+                reqIcon = itemView.findViewById(R.id.friend_request_icon);
+                profilePic = itemView.findViewById(R.id.user_image);
+            }
         }
     }
-}
