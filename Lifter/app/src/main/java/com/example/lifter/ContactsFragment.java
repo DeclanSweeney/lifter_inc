@@ -140,54 +140,6 @@ public class ContactsFragment extends Fragment {
     }
 
 
-//        FirebaseRecyclerAdapter<Contacts, ContactsFragment.ReqViewHolder> recyclerAdapter = new FirebaseRecyclerAdapter<Contacts, ContactsFragment.ReqViewHolder>(options) {
-//            @Override
-//            protected void onBindViewHolder(@NonNull final ContactsFragment.ReqViewHolder holder, int position, @NonNull Contacts model) {
-//                holder.username.setText(model.getName());
-//                holder.userGym.setText(model.getGym());
-//
-////                holder.itemView.findViewById(R.id.friend_request_icon).setVisibility(View.INVISIBLE);
-//
-////                final String list_user_id = getRef(position).getKey();
-////                Log.d("key", list_user_id);
-////
-////                usersRef.child(list_user_id).addValueEventListener(new ValueEventListener() {
-////                    @Override
-////                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-////                        if (dataSnapshot.exists()) {
-////                            if (dataSnapshot.hasChild("image")) {
-////                                final String reqProfileImage = dataSnapshot.child("profile_image").getValue().toString();
-////                                Picasso.get().load(reqProfileImage).into(holder.profilePic);
-////                            }
-////                            final String reqUserName = dataSnapshot.child("name").getValue().toString();
-////                            final String reqUserGym = dataSnapshot.child("gym").getValue().toString();
-////                            holder.username.setText(reqUserName);
-////                            holder.userGym.setText(reqUserGym);
-////                        }
-////                    }
-////
-////                    @Override
-////                    public void onCancelled(@NonNull DatabaseError databaseError) {
-////
-////                    }
-////                });
-//            }
-//
-//            @NonNull
-//            @Override
-//            public ContactsFragment.ReqViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_display_layout, parent, false);
-//                ContactsFragment.ReqViewHolder holder = new ContactsFragment.ReqViewHolder(view);
-//                return holder;
-//            }
-//        };
-//
-//        contactsList.setAdapter(recyclerAdapter);
-//        recyclerAdapter.startListening();
-//    }
-//
-
-
         private void GetContactsList (DataSnapshot ds){
             Iterator it = ds.getChildren().iterator();
             while (it.hasNext()) {

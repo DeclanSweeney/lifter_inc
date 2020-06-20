@@ -11,6 +11,14 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chat_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true">
+    </androidx.recyclerview.widget.RecyclerView>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_new_friend_fab"
         android:layout_width="wrap_content"
