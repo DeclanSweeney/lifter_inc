@@ -7,16 +7,17 @@
     android:background="#000000"
     tools:context=".SurveyActivity">
 
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="415dp"
-        android:layout_height="120dp"
+        android:layout_width="417dp"
+        android:layout_height="107dp"
         android:background="#035302"
         android:fadingEdge="vertical"
         android:foregroundTint="#050101"
         app:layout_constraintBottom_toTopOf="@+id/b_option1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
@@ -48,40 +49,58 @@
         android:id="@+id/Question"
         android:layout_width="266dp"
         android:layout_height="52dp"
+        android:layout_marginTop="64dp"
         android:text="Question,Question,Question"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/b_option1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
-
-
     <Button
-        android:id="@+id/b_reset"
+        android:id="@+id/b_resetINT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="89dp"
-        android:layout_marginEnd="72dp"
+        android:layout_marginTop="696dp"
+        android:layout_marginBottom="16dp"
         android:background="#FFFFFF"
         android:text="Reset"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/b_option3"
-        app:layout_constraintVertical_bias="0.536" />
+        app:layout_constraintHorizontal_bias="0.879"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/ShowOutput"
-        android:layout_width="269dp"
-        android:layout_height="85dp"
-        android:background="#FDFBFB"
-        android:text="TextView"
-        android:textColor="#000000"
-        android:visibility="invisible"
+    <EditText
+        android:id="@+id/editTextNumberDecimal"
+        android:layout_width="334dp"
+        android:layout_height="64dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="Enter input here..."
+        android:inputType="numberDecimal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/Question"
+        app:layout_constraintVertical_bias="0.162" />
+
+    <Button
+        android:id="@+id/b_Submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="179dp"
+        android:text="Submit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.117"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumberDecimal"
+        app:layout_constraintVertical_bias="0.889" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

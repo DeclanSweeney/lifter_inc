@@ -13,7 +13,6 @@ public class SurveyQuestions
     private String mChoices [][] = {
             {"Beginner", "Medium", "Hard"},
             {"1 day", "3 days", "5 days"},
-            {"50 - 60 kg", "61 - 80 kg", "81 - 100 kg"}
     };
 
     //used for
@@ -38,4 +37,11 @@ public class SurveyQuestions
         String choice2 = mChoices[a][2];
         return choice2;
     }
+
+    public String getIntQ()
+    {
+        String question = mQuestions[2];
+        return question;
+    }
 }
+

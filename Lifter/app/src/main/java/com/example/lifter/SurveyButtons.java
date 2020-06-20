@@ -1,4 +1,5 @@
 package com.example.lifter;
 
-public class SurveyButtons {
+public class SurveyButtons
+{
 }
