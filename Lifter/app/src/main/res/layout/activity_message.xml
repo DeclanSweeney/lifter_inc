@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MessageActivity">
 
-    <include android:id="@+id/message_toolbar"
+    <include
+        android:id="@+id/message_toolbar"
         layout="@layout/app_bar_layout">
     </include>
 
