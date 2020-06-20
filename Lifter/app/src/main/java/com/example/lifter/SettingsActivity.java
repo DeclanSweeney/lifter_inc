@@ -154,7 +154,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Please enter a gym or N/A", Toast.LENGTH_SHORT).show();    
         }
         else {
-            HashMap<String, String> userMap = new HashMap<>();
+            HashMap<String, Object> userMap = new HashMap<>();
             userMap.put("uid", uid);
             userMap.put("name", username);
             userMap.put("gym", gymName);

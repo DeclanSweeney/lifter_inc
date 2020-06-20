@@ -17,16 +17,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".MessageActivity"></activity>
         <activity android:name=".progress.ProgressActivity" />
-        <activity android:name=".specific_exercise"/>
+        <activity android:name=".specific_exercise" />
         <activity android:name=".ListExercise" />
         <activity android:name=".ProgressActivity" />
-        <activity android:name=".GymBuddyFinderActivity"/>
+        <activity android:name=".GymBuddyFinderActivity" />
         <activity android:name=".GroupChatActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".SuggestedEventActivity"/>
+        <activity android:name=".SuggestedEventActivity" />
         <activity android:name=".AddEventActivity" />
         <activity android:name=".SurveyActivity" />
         <activity android:name=".WorkoutActivity" />
@@ -38,6 +39,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
