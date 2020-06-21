@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".SurveyActivity">
+    tools:context=".SurveyInteger">
 
 
     <RelativeLayout
@@ -74,7 +74,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <EditText
-        android:id="@+id/editTextNumberDecimal"
+        android:id="@+id/IntegerField"
         android:layout_width="334dp"
         android:layout_height="64dp"
         android:background="#FFFFFF"
