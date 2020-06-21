@@ -1,6 +1,8 @@
 package com.example.lifter;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +21,7 @@ public class SurveyInteger extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_survey_int);
 
         updateQuestion();
@@ -46,12 +49,13 @@ public class SurveyInteger extends AppCompatActivity {
 
     private void Saveinput()
     {
-
+        Weight = Integer.parseInt(String.valueOf(mIntegerInput.getText()));
     }
 
     private void UpdateUI()
     {
-
+        Intent intent = new Intent(SurveyInteger.this, SurveyActivity.class);
+        startActivity(intent);
     }
 
     private void updateQuestion() {

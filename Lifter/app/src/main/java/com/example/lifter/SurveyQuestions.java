@@ -13,7 +13,7 @@ public class SurveyQuestions
     private String mChoices [][] = {
             {"Beginner", "Medium", "Hard"},
             {"1 day", "3 days", "5 days"},
-            {"test","test","test"}
+           // {"test","test","test"}
     };
 
     //used for

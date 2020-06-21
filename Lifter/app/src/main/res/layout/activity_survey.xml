@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".SurveyActivity">
+    tools:context=".SurveyActivity"
+    tools:visibility="visible">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -109,18 +110,35 @@
         app:layout_constraintTop_toBottomOf="@+id/b_option3"
         app:layout_constraintVertical_bias="0.536" />
 
-    <TextView
-        android:id="@+id/ShowOutput"
-        android:layout_width="269dp"
-        android:layout_height="85dp"
-        android:background="#FDFBFB"
-        android:text="TextView"
-        android:textColor="#000000"
-        android:visibility="invisible"
+    <Button
+        android:id="@+id/b_Submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="89dp"
+        android:layout_marginEnd="252dp"
+        android:background="#FFFFFF"
+        android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/b_option3"
+        app:layout_constraintVertical_bias="0.547"
+        tools:visibility="gone" />
+
+    <EditText
+        android:id="@+id/IntInput"
+        android:layout_width="280dp"
+        android:layout_height="71dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="Enter your weight here..."
+        android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/Question"
+        app:layout_constraintVertical_bias="0.276"
+        tools:visibility="gone" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
