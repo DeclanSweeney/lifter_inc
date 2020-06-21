@@ -6,23 +6,63 @@
     android:layout_height="match_parent"
     tools:context=".progress.ProgressActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/progress_bar_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/progress_app_bar"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <Button
+                android:id="@+id/btn_take_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@color/design_default_color_primary"
+                android:text="Take Photo"
+                android:typeface="sans"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                />
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ImageView
         android:id="@+id/photo_thumbnail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         android:contentDescription="@string/app_name"
-        android:scaleType="fitCenter"
+        android:scaleType="center"
         app:layout_constraintBottom_toTopOf="@+id/nestedScrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/progress_bar_Layout" />
+
+    <TextView
+        android:id="@+id/photo_created_on"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/nestedScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photo_thumbnail" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toTopOf="@+id/workout_graph_fragment"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,21 +86,21 @@
         android:name="com.example.lifter.progress.WorkoutGraphFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/button_take_photo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nestedScrollView"
         tools:layout="@layout/fragment_workout_graph" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_take_photo"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Number of Completed Workouts"
+        app:layout_constraintBottom_toTopOf="@+id/workout_graph_fragment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nestedScrollView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -50,7 +50,7 @@ public class PhotoRepository {
             Uri photoPath = Uri.fromFile(pic);
 
             // Find the date when the photo was last created we will show in the UI.
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss a");
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
             Date lastModDate = new Date(pic.lastModified());
 
             // Convert the date object into string

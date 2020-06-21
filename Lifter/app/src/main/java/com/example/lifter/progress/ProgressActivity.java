@@ -1,6 +1,7 @@
 package com.example.lifter.progress;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -14,19 +15,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lifter.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ProgressActivity extends AppCompatActivity implements ProgressPhotoGalleryFragment.OnListFragmentInteractionListener {
 
     private RecyclerView.Adapter recyclerViewAdapter;
     private RecyclerView recyclerView;
-    private FloatingActionButton buttonTakePhoto;
     private static final int REQUEST_TAKE_PHOTO = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_STORAGE_PERMISSION = 1;
@@ -34,13 +37,16 @@ public class ProgressActivity extends AppCompatActivity implements ProgressPhoto
     private List<Photo> photos = new ArrayList<Photo>();
     private PhotoRepository photoRepository = new PhotoRepository();
     private ImageView thumbnailImageView;
+    private Toolbar mainToolbar;
+    private Button btnTakePhoto;
+    private TextView photoCreatedOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
-        buttonTakePhoto = findViewById(R.id.button_take_photo);
         thumbnailImageView = findViewById(R.id.photo_thumbnail);
+        photoCreatedOn = findViewById(R.id.photo_created_on);
 
         if (recyclerViewAdapter == null) {
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.main_fragment);
@@ -52,8 +58,14 @@ public class ProgressActivity extends AppCompatActivity implements ProgressPhoto
         recyclerView.setAdapter(adapter);
         loadPhotos();
         setThumbnail();
+        mainToolbar = findViewById(R.id.progress_app_bar);
 
-        buttonTakePhoto.setOnClickListener(new View.OnClickListener() {
+        setSupportActionBar(mainToolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Progress");
+        btnTakePhoto = findViewById(R.id.btn_take_photo);
+
+
+        btnTakePhoto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // First we need to ask the user to give permission to save photo to external location
                 if (ContextCompat.checkSelfPermission(getApplicationContext(),
@@ -98,12 +110,14 @@ public class ProgressActivity extends AppCompatActivity implements ProgressPhoto
             Photo firstPhoto = photos.get(0);
             // Set the first photo as thumbnail
             thumbnailImageView.setImageURI(firstPhoto.photoPath);
+            photoCreatedOn.setText(firstPhoto.date);
         }
     }
 
     @Override
     public void onListFragmentInteraction(final Photo item) {
         thumbnailImageView.setImageURI(item.photoPath);
+        photoCreatedOn.setText(item.date);
     }
 
     @Override

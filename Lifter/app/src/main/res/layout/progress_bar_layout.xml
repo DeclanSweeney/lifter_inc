@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/progress_app_bar"
+android:background="@color/colorPrimary"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+<Button
+    android:id="@+id/btn_take_photo"
+    android:layout_width="wrap_content"
+    android:layout_height="30dp"
+    android:background="@android:color/holo_purple"
+    android:text="Take Photo"
+    android:layout_gravity="right"
+    />
+
+</androidx.appcompat.widget.Toolbar>
