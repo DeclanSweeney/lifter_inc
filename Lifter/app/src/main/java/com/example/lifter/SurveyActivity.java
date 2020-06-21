@@ -208,7 +208,7 @@ public class SurveyActivity extends AppCompatActivity {
         }
 
         UserAnswers.put("Weight", Weight);
-
+        mQuestionView.setText("Questionnaire inputs successful: " + UserAnswers);
     }
 
 
