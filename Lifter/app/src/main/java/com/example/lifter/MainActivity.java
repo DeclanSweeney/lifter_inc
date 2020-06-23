@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
 
-       /* if (firebaseUser == null) {
+        if (firebaseUser == null) {
             SendUserToLogin();
-        }*/
+        }
     }
 
     //Send user to login activity and disable return via back button
