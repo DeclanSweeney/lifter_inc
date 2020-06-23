@@ -5,19 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
-    tools:context=".SurveyActivity"
-    tools:visibility="visible">
+    tools:context=".SurveyInteger">
+
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="415dp"
-        android:layout_height="120dp"
+        android:layout_width="417dp"
+        android:layout_height="107dp"
         android:background="#035302"
         android:fadingEdge="vertical"
         android:foregroundTint="#050101"
         app:layout_constraintBottom_toTopOf="@+id/b_option1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
@@ -49,96 +49,58 @@
         android:id="@+id/Question"
         android:layout_width="266dp"
         android:layout_height="52dp"
+        android:layout_marginTop="64dp"
         android:text="Question,Question,Question"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/b_option1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
     <Button
-        android:id="@+id/b_option1"
-        android:layout_width="282dp"
-        android:layout_height="76dp"
-        android:background="#FFFFFF"
-        android:clickable="true"
-        android:longClickable="false"
-        android:text="A"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.359" />
-
-    <Button
-        android:id="@+id/b_option2"
-        android:layout_width="282dp"
-        android:layout_height="76dp"
-        android:background="#FFFFFF"
-        android:text="B"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/b_option1"
-        app:layout_constraintVertical_bias="0.075" />
-
-    <Button
-        android:id="@+id/b_option3"
-        android:layout_width="282dp"
-        android:layout_height="76dp"
-        android:background="#FFFFFF"
-        android:text="C"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/b_option2"
-        app:layout_constraintVertical_bias="0.13" />
-
-    <Button
-        android:id="@+id/b_reset"
+        android:id="@+id/b_resetINT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="89dp"
-        android:layout_marginEnd="72dp"
+        android:layout_marginTop="696dp"
+        android:layout_marginBottom="16dp"
         android:background="#FFFFFF"
         android:text="Reset"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/b_option3"
-        app:layout_constraintVertical_bias="0.536" />
+        app:layout_constraintHorizontal_bias="0.879"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/IntegerField"
+        android:layout_width="334dp"
+        android:layout_height="64dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="Enter input here..."
+        android:inputType="numberDecimal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Question"
+        app:layout_constraintVertical_bias="0.162" />
 
     <Button
         android:id="@+id/b_Submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="89dp"
-        android:layout_marginEnd="252dp"
-        android:background="#FFFFFF"
+        android:layout_marginTop="388dp"
         android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/b_option3"
-        app:layout_constraintVertical_bias="0.547"
-        tools:visibility="gone" />
-
-    <EditText
-        android:id="@+id/IntInput"
-        android:layout_width="280dp"
-        android:layout_height="71dp"
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:hint="Enter your weight here..."
-        android:inputType="numberDecimal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintEnd_toStartOf="@+id/b_resetINT"
+        app:layout_constraintHorizontal_bias="0.193"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Question"
-        app:layout_constraintVertical_bias="0.276"
-        tools:visibility="gone" />
+        app:layout_constraintTop_toTopOf="@+id/IntegerField"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
