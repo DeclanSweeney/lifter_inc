@@ -9,6 +9,7 @@
 1. Clone the reposistory
 2. Download and install android studio
 3. Open android studio open the git file you have cloned.
+4. Install android 9 emulator
 
 ## Installing
 
