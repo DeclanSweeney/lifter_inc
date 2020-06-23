@@ -6,11 +6,11 @@ This android application is designed for someone wanting to exercise. However as
 * Chat
 * Social media intergration
 * Video based tutorial
-* weigth based tracking
+* Weight based tracking
 
 ### Prerequisites
 * Android studio - https://developer.android.com/studio/ - IDE
-* android 9 emulator - Which will need to be downloaded within Android studio
+* Android 9 emulator - Which will need to be downloaded within Android studio
 
 ## Getting Started 
 1. Clone the reposistory
@@ -27,8 +27,8 @@ This android application is designed for someone wanting to exercise. However as
 ## Versioning
 
 ## Authors
-* **Declan Sweeney** - Boss
-* **Bruce Young** - Scrum master
+* **Declan Sweeney** - Product Owner/ Developer
+* **Bruce Young** - Scrum master/ Developer
 * **Leen Alzebn** - Developer
 * **Harpreet Singh** - Developer
 * **Jayden Kean** - Developer
