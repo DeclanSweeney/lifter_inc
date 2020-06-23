@@ -14,22 +14,27 @@ public class Exercise {
     //for both the user and exercise
     private double baseweigth,targetweight,bodyWeight;
 
-    //for different type of lists
-    //need to store into the database
-    private ArrayList<String> Diffculty = new ArrayList<>(Arrays.asList("BEGINNER","MEDIUM","HARD"));
-    private ArrayList<String> exType = new ArrayList<>(Arrays.asList("CHEST","BACK","BICEP","TRICEP","LEGS"));
-
 
     //place holder for now
     private String diffcuity;
     private String ExType;
 
+    public Exercise(String nm){
+        this.ex_name = nm;
+    }
 
-    public Exercise(int img, String name, String desc, String tip, String diff, String ExType,Double bodyWeight){
-        this.img_ex = img;
+    // public Exercise(int img, String name, String desc, String tip, String diff, String ExType,Double bodyWeight){
+    //     this.img_ex = img;
+    //     this.ex_name = name;
+    //    this.description = desc;
+    //   this.tips = tip;
+    //   this.diffcuity = diff;
+    //   this.ExType = ExType;
+    //   this.bodyWeight = bodyWeight;
+    // }
+
+    public Exercise( String name, String diff, String ExType,Double bodyWeight){
         this.ex_name = name;
-        this.description = desc;
-        this.tips = tip;
         this.diffcuity = diff;
         this.ExType = ExType;
         this.bodyWeight = bodyWeight;
