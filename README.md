@@ -12,10 +12,6 @@
 
 ## Installing
 
-
-## Depoly
-
-
 ## Contribution
 
 ## Versioning
