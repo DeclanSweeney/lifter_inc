@@ -3,11 +3,11 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '30.0.0 rc4'
+   // buildToolsVersion ''
 
     defaultConfig {
         applicationId "com.example.lifter"
-        minSdkVersion 28
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"

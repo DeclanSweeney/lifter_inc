@@ -8,12 +8,17 @@ public class Note {
     public static final String COLUMN_EVENT = "event";
     public static final String COLUMN_DESC = "desc";
     public static final String COLUMN_WORK = "work";
+    public static final String COLUMN_STATUS = "status";
+    public static final String COLUMN_TIME = "time";
+
 
     private int id;
     private String date;
     private String event;
     private String description;
     private String work;
+    private String status;
+    private String time;
 
 
     // Create table SQL query
@@ -23,7 +28,9 @@ public class Note {
                     + COLUMN_DATE + " TEXT,"
                     + COLUMN_EVENT + " TEXT,"
                     + COLUMN_DESC + " TEXT,"
-                    + COLUMN_WORK + " TEXT"
+                    + COLUMN_WORK + " TEXT,"
+                    + COLUMN_STATUS + " TEXT,"
+                    + COLUMN_TIME + " TEXT"
                     + ")";
 
 
@@ -31,12 +38,14 @@ public class Note {
     }
 
 
-    public Note(int id, String date, String event, String description, String work) {
+    public Note(int id, String date, String event, String description, String work,String status,String time) {
         this.id = id;
         this.date = date;
         this.event = event;
         this.description = description;
         this.work = work;
+        this.status = status;
+        this.time = time;
     }
 
     public int getId() {
@@ -77,5 +86,21 @@ public class Note {
 
     public void setWork(String work) {
         this.work = work;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

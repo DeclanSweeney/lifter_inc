@@ -14,6 +14,7 @@
 
     <string name="event_name">Event name</string>
     <string name="save">Add Event</string>
+    <string name="done">Done</string>
     <string name="add_suggest_event">Suggest Event</string>
     <string name="what_days_do_you_want_exercise">What days do you want exercise ?</string>
 
@@ -46,4 +47,41 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="created_at" />
+
+    <string name="exercise">It’s time to exercise</string>
+    <string name="notification_des">You have to do %1$s at %2$s</string>
+
+    <string-array name="less_than_two">
+        <item>Chest: Press up on knees — Beginner — Body weight (NIL modifier)</item>
+        <item>Chest: Press up — Beginner — Body weight (NIL modifier)</item>
+        <item>Back: Machine row — Beginner — 0.3x modifier</item>
+        <item>Back: Lat pull down — Beginner — 0.3x modifier</item>
+        <item>Bicep: Seated alternating curl — Beginner — O.1x modifier</item>
+        <item>Bicep: Seated alternating hammer curl — Beginner — O.1x modifier</item>
+        <item>Triceps: Cable rope pushdown — Beginner — 0.3x modifier</item>
+        <item>Triceps: Chair dips — Beginner — Body weight (NIL modifier)</item>
+        <item>Legs: Air squats — Beginner — Body weight (NIL modifier)</item>
+        <item>Legs: Walking Lunges — Beginner — Body weight (NIL modifier)</item>
+    </string-array>
+
+    <string-array name="equal_three">
+        <item>Chest: Bench press - Intermediate - 0.4x modifier </item>
+        <item>Chest: Dumbbell press - Intermediate - 0.2x modifier</item>
+        <item>Back: Bent over row - Intermediate - 0.2x modifier</item>
+        <item>Back: Single arm pull down - Intermediate 0.3x modifier</item>
+        <item>Bicep: Standing cable curl - Intermediate - 0.2x modifier</item>
+        <item>Bicep: Rope hammer curl - Intermediate - 0.2x modifier</item>
+        <item>Triceps: Overhead tricep extension - Intermediate - 0.1x modifier</item>
+        <item>Triceps: Skull crusher - Intermediate - 0.1x modifier</item>
+        <item>Legs: Leg press - Intermediate - 0.6x modifier</item>
+        <item>Legs: Weighted back squat - Intermediate - 0.4x modifier</item>
+    </string-array>
+
+    <string-array name="more_than_three">
+        <item>Chest: Dumbbell fly - Experienced - 0.1 x modifier</item>
+        <item>Back: Pull up - Experienced - Body weight (Nil modifier)</item>
+        <item>Bicep: Preacher curl - Experienced - 0.2x modifier</item>
+        <item>Triceps: Dips - Experienced - Body weight (Nil modifier)</item>
+        <item>Legs: Deadlift - Experienced - 0.7x modifier </item>
+    </string-array>
 </resources>

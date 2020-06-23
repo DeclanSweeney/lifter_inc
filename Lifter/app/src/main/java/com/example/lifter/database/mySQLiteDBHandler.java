@@ -43,7 +43,7 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertNote(String note, String event, String desc,String listwork) {
+    public long insertNote(String note, String event, String desc, String listwork, String status, String time) {
         // get writable database as we want to write data
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -54,6 +54,8 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         values.put(Note.COLUMN_EVENT, event);
         values.put(Note.COLUMN_DESC, desc);
         values.put(Note.COLUMN_WORK, listwork);
+        values.put(Note.COLUMN_STATUS, status);
+        values.put(Note.COLUMN_TIME, time);
 
         // insert row
         long id = db.insert(Note.TABLE_NAME, null, values);
@@ -70,7 +72,7 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(Note.TABLE_NAME,
-                new String[]{Note.COLUMN_ID, Note.COLUMN_DATE, Note.COLUMN_EVENT, Note.COLUMN_DESC, Note.COLUMN_WORK},
+                new String[]{Note.COLUMN_ID, Note.COLUMN_DATE, Note.COLUMN_EVENT, Note.COLUMN_DESC, Note.COLUMN_WORK, Note.COLUMN_STATUS, Note.COLUMN_TIME},
                 Note.COLUMN_DATE + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
@@ -85,7 +87,9 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(Note.COLUMN_DATE)),
                     cursor.getString(cursor.getColumnIndex(Note.COLUMN_EVENT)),
                     cursor.getString(cursor.getColumnIndex(Note.COLUMN_DESC)),
-                    cursor.getString(cursor.getColumnIndex(Note.COLUMN_WORK)));
+                    cursor.getString(cursor.getColumnIndex(Note.COLUMN_WORK)),
+                    cursor.getString(cursor.getColumnIndex(Note.COLUMN_STATUS)),
+                    cursor.getString(cursor.getColumnIndex(Note.COLUMN_TIME)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,7 +100,7 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         return note;
     }
 
-    public long insertSuggested(String day) {
+    public long insertSuggested(String day, String time) {
         // get writable database as we want to write data
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -104,6 +108,7 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         // `id` and `timestamp` will be inserted automatically.
         // no need to add them
         values.put(Suggested.COLUMN_DAY, day);
+        values.put(Suggested.COLUMN_TIME, time);
 
         // insert row
         long id = db.insert(Suggested.TABLE_SUGGESTED, null, values);
@@ -115,7 +120,7 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    public void clearSuggestedList(){
+    public void clearSuggestedList() {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(Suggested.TABLE_SUGGESTED, null, null);
@@ -126,7 +131,7 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(Suggested.TABLE_SUGGESTED,
-                new String[]{Suggested.COLUMN_ID,  Suggested.COLUMN_DAY},
+                new String[]{Suggested.COLUMN_ID, Suggested.COLUMN_DAY, Suggested.COLUMN_TIME},
                 Suggested.COLUMN_DAY + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
 
@@ -138,7 +143,8 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         try {
             suggested = new Suggested(
                     cursor.getInt(cursor.getColumnIndex(Suggested.COLUMN_ID)),
-                    cursor.getString(cursor.getColumnIndex(Suggested.COLUMN_DAY)));
+                    cursor.getString(cursor.getColumnIndex(Suggested.COLUMN_DAY)),
+                    cursor.getString(cursor.getColumnIndex(Suggested.COLUMN_TIME)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -148,7 +154,6 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
 
         return suggested;
     }
-
 
 
     public List<Suggested> getAllSuggestDay() {
@@ -167,6 +172,7 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
                 Suggested suggested = new Suggested();
                 suggested.setId(cursor.getInt(cursor.getColumnIndex(Suggested.COLUMN_ID)));
                 suggested.setDay(cursor.getString(cursor.getColumnIndex(Suggested.COLUMN_DAY)));
+                suggested.setTime(cursor.getString(cursor.getColumnIndex(Suggested.COLUMN_TIME)));
 
                 suggestedArrayList.add(suggested);
             } while (cursor.moveToNext());
@@ -192,15 +198,29 @@ public class mySQLiteDBHandler extends SQLiteOpenHelper {
         return count;
     }
 
-    public int updateNote(Note note) {
+    public int updateNote(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(Note.COLUMN_EVENT, note.getEvent());
+        values.put(Note.COLUMN_STATUS, "1");
 
         // updating row
-        return db.update(Note.TABLE_NAME, values, Note.COLUMN_ID + " = ?",
-                new String[]{String.valueOf(note.getId())});
+        return db.update(Note.TABLE_NAME, values, Note.COLUMN_DATE + "=?",
+                new String[]{String.valueOf(id)});
+    }
+
+    public int updateData(String id, String event, String desc, String listwork, String time) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Note.COLUMN_EVENT, event);
+        values.put(Note.COLUMN_DESC, desc);
+        values.put(Note.COLUMN_WORK, listwork);
+        values.put(Note.COLUMN_TIME, time);
+
+        // updating row
+        return db.update(Note.TABLE_NAME, values, Note.COLUMN_DATE + "=?",
+                new String[]{String.valueOf(id)});
     }
 
     public void deleteNote(Note note) {

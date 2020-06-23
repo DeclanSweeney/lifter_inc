@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.lifter.database.Note;
 import com.example.lifter.database.mySQLiteDBHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,7 +30,13 @@ public class CalendarActivity extends AppCompatActivity {
     private String selectedDate;
     FloatingActionButton addEvent, addSuggestedEvent;
     LinearLayout eventLayout, workOutLay, suggesteventLayout, suggestedDayLay;
-    String[] workOutActivity = new String[]{"Leg", "Chest", "Back", "Core", "Arms"};
+    // String[] workOutActivity = new String[]{"Leg", "Chest", "Back", "Core", "Arms"};
+    String[] workOutActivity = new String[]{};
+
+    private LinearLayout eventCardLayout;
+    private Button buttonDone;
+    private Note note = new Note();
+    private String randomName;
 
 
     @Override
@@ -48,11 +56,12 @@ public class CalendarActivity extends AppCompatActivity {
         suggestedDayLay = findViewById(R.id.suggestedDayLay);
         tvRandomworkPlan = findViewById(R.id.tvRandomworkPlan);
         tvdayName = findViewById(R.id.tvdayName);
+        eventCardLayout = findViewById(R.id.eventCardLayout);
+        buttonDone = findViewById(R.id.buttonDone);
 
 
         //=================== Initialize Table ===================//
         dbHandler = new mySQLiteDBHandler(this);
-
 
 
         //======================== Calender Date Change ====================== //
@@ -93,12 +102,27 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
 
+        buttonDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateDatabase();
+            }
+        });
+
     }
 
     //======================== Get Data From Database (Event Data by Date wise) ========================//
     public void ReadDatabase(String selectedDate) {
         if (dbHandler.getNote(selectedDate) != null) {
+            if (dbHandler.getNote(selectedDate).getStatus().equals("1")) {
+                eventCardLayout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                buttonDone.setVisibility(View.GONE);
+            } else {
+                eventCardLayout.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                buttonDone.setVisibility(View.VISIBLE);
+            }
             eventLayout.setVisibility(View.VISIBLE);
+
             tvTitle.setText(dbHandler.getNote(selectedDate).getEvent());
             tvDesc.setText(dbHandler.getNote(selectedDate).getDescription());
             if (dbHandler.getNote(selectedDate).getWork().length() > 3) {
@@ -126,8 +150,20 @@ public class CalendarActivity extends AppCompatActivity {
                     Log.e(TAG, "ReadAllSuggested: " + myList.get(i).trim());
                     Log.e(TAG, "dayOfWeek: " + dayOfWeek);
                     if (myList.get(i).trim().equals(dayOfWeek)) {
-                        int randomIndex = new Random().nextInt(workOutActivity.length);
-                        String randomName = workOutActivity[randomIndex];
+                        if (myList.size() <= 2) {
+                            workOutActivity = getResources().getStringArray(R.array.less_than_two);
+                            int randomIndex = new Random().nextInt(workOutActivity.length);
+                            randomName = workOutActivity[randomIndex];
+                        } else if (myList.size() == 3) {
+                            workOutActivity = getResources().getStringArray(R.array.equal_three);
+                            int randomIndex = new Random().nextInt(workOutActivity.length);
+                            randomName = workOutActivity[randomIndex];
+                        } else {
+                            workOutActivity = getResources().getStringArray(R.array.more_than_three);
+                            int randomIndex = new Random().nextInt(workOutActivity.length);
+                            randomName = workOutActivity[randomIndex];
+                        }
+
                         tvRandomworkPlan.setText(randomName);
                         suggesteventLayout.setVisibility(View.VISIBLE);
                         break;
@@ -140,6 +176,13 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
+    //=================== Update status in database(Event Data by Date wise) ============//
+
+    public void updateDatabase() {
+        if (dbHandler.getNote(selectedDate) != null) {
+            dbHandler.updateNote(dbHandler.getNote(selectedDate).getDate());
+        }
+    }
 
     //=================== Every time method Called when you come on this page ============//
     @Override

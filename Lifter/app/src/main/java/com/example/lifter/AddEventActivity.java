@@ -2,6 +2,7 @@ package com.example.lifter;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -27,12 +29,24 @@ public class AddEventActivity extends AppCompatActivity {
     private static final String TAG = "AddEventActivity";
     EditText textInputEditText, editDesc;
     Button buttonSave;
-    static TextView buttonDate;
+    static TextView buttonDate, buttonTime;
     private static String selectedDate;
+    private static String selectedTime;
     private mySQLiteDBHandler dbHandler;
-    CheckBox checkLeg, checkChest, checkBack, checkCore, checkArms;
+    CheckBox checkChest, checkBack, checkBicep, checkTricep,checkLeg;
 
     ArrayList<String> list;
+
+    private int mHour;
+    private int mMinute;
+
+    private static int mDay;
+    private static int mMonth;
+    private static int mYear;
+
+    private int hour;
+    private int minutes;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +57,14 @@ public class AddEventActivity extends AppCompatActivity {
         editDesc = findViewById(R.id.editDesc);
         buttonSave = findViewById(R.id.buttonSave);
         buttonDate = findViewById(R.id.buttonDate);
+        buttonTime = findViewById(R.id.buttonTime);
 
-        checkLeg = findViewById(R.id.checkLeg);
+
         checkChest = findViewById(R.id.checkChest);
         checkBack = findViewById(R.id.checkBack);
-        checkCore = findViewById(R.id.checkCore);
-        checkArms = findViewById(R.id.checkArms);
+        checkBicep = findViewById(R.id.checkBicep);
+        checkTricep = findViewById(R.id.checkTricep);
+        checkLeg = findViewById(R.id.checkLeg);
 
         list = new ArrayList<>();
 
@@ -88,13 +104,49 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
+        //================== Time Picker ======================//
+        String time = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+        buttonTime.setText(time);
+
+
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+
+        selectedTime=mHour+"_"+mMinute;
+
+
+        buttonTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickTime();
+            }
+        });
+
+        buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dbHandler.getNote(selectedDate) != null) {
+                    updateDatabase();
+                } else {
+                    InsertDatabase();
+                }
+                //  Log.e(TAG, "onClick: "+list.toString() );
+            }
+        });
+
+
 
     }
 
 
     /// =============== Insert data on table  ============//
     public void InsertDatabase() {
-        dbHandler.insertNote(selectedDate, textInputEditText.getText().toString(), editDesc.getText().toString(),list.toString());
+        dbHandler.insertNote(selectedDate, textInputEditText.getText().toString(), editDesc.getText().toString(), list.toString(), "0", selectedTime);
+        finish();
+    }
+
+    public void updateDatabase() {
+        dbHandler.updateData(selectedDate, textInputEditText.getText().toString(), editDesc.getText().toString(), list.toString(), selectedTime);
         finish();
     }
 
@@ -132,6 +184,10 @@ public class AddEventActivity extends AppCompatActivity {
             date = spf.format(newDate);
             buttonDate.setText(date);
             // buttonDate.setText(ConverterDate.ConvertDate(year, monthOfYear + 1, dayOfMonth));
+
+            mDay = dayOfMonth;
+            mMonth = monthOfYear;
+            mYear = year;
         }
     }
 
@@ -141,13 +197,6 @@ public class AddEventActivity extends AppCompatActivity {
         boolean checked = ((CheckBox) view).isChecked();
 
         switch (view.getId()) {
-            case R.id.checkLeg:
-                if(checked){
-                    list.add(checkLeg.getTag().toString());
-                }else {
-                    list.remove(checkLeg.getTag().toString());
-                }
-                break;
             case R.id.checkChest:
                 if(checked){
                     list.add(checkChest.getTag().toString());
@@ -164,22 +213,62 @@ public class AddEventActivity extends AppCompatActivity {
                 }
 
                 break;
-            case R.id.checkCore:
+            case R.id.checkBicep:
                 if(checked){
-                    list.add(checkCore.getTag().toString());
+                    list.add(checkBicep.getTag().toString());
                 }else {
-                    list.remove(checkCore.getTag().toString());
+                    list.remove(checkBicep.getTag().toString());
                 }
                 break;
-            case R.id.checkArms:
+            case R.id.checkTricep:
                 if(checked){
-                    list.add(checkArms.getTag().toString());
+                    list.add(checkTricep.getTag().toString());
                 }else {
-                    list.remove(checkArms.getTag().toString());
+                    list.remove(checkTricep.getTag().toString());
                 }
                 break;
-
+            case R.id.checkLeg:
+                if(checked){
+                    list.add(checkLeg.getTag().toString());
+                }else {
+                    list.remove(checkLeg.getTag().toString());
+                }
+                break;
         }
 
     }
+
+    private void pickTime() {
+        final Calendar c = Calendar.getInstance();
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+        // Launch Time Picker Dialog
+        TimePickerDialog timePickerDialog = new TimePickerDialog(AddEventActivity.this,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minute) {
+
+                        String h = hourOfDay + "", m = minute + "";
+
+
+                        if (h.length() == 1) h = "0" + h;
+                        if (m.length() == 1) m = "0" + m;
+
+                        String time = h + ":" + m;
+                        buttonTime.setText(time);
+
+                        hour = hourOfDay;
+                        minutes = minute;
+
+                        selectedTime=hourOfDay+"_"+minute;
+
+                    }
+                }, mHour, mMinute, false);
+        timePickerDialog.show();
+    }
+
+
+
 }
