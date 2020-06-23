@@ -2,7 +2,7 @@
 
 
 ### Prerequisites
-* [Android studio] https://developer.android.com/studio/ - IDE
+* Android studio - https://developer.android.com/studio/ - IDE
 * android 9 emulator - Which will need to be downloaded with Android studio
 
 ## Getting Started 
@@ -12,8 +12,8 @@
 4. Install android 9 emulator
 
 ## Built With
-* [Android studio]  
-* [Java] 
+* Android studio  
+* Java 
 
 ## Contribution
 
