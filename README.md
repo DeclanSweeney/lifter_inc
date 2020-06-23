@@ -22,7 +22,7 @@
 * **Declan Sweeney** - Boss
 * **Bruce Young** - Scrum master
 * **Leen Alzebn** - Developer
-* **Harpreet Signh** - Developer
+* **Harpreet Singh** - Developer
 * **Jayden Kean** - Developer
 
 
