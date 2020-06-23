@@ -1,6 +1,6 @@
 ## Lifter_Inc - Exercise application
 ### Project pitch:
-This android application is designed for someone wanting to exercise. However as they may not have time to go the gym. This application can be an alternative.The application will provide a video of how to do the exercise as well as keep track of their current workouts. The way this application keeps track of this is by your weight and your target weight. The user may also take photos are share it on social media. 
+This android application is designed for someone wanting to exercise. However as they may not have time to go the gym. This application can be an alternative.The application will provide a video of how to do the exercise as well as keep track of their current workouts. The way this application keeps track of this is by your weight and your target weight. The user may also take photos to share on social media. 
 
 ### Features:
 * Chat
