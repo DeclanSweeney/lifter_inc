@@ -24,10 +24,11 @@
         android:supportsRtl="true"
         android:process=":Me"
         android:theme="@style/AppTheme">
+        <activity android:name=".MessageActivity"
+            android:parentActivityName=".ChatActivity"/>
         <activity android:name=".progress.ProgressActivity" />
         <activity android:name=".specific_exercise" />
         <activity android:name=".ListExercise" />
-        <activity android:name=".ProgressActivity" />
         <activity android:name=".GymBuddyFinderActivity" />
         <activity android:name=".GroupChatActivity" />
         <activity android:name=".SettingsActivity" />
@@ -45,6 +46,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

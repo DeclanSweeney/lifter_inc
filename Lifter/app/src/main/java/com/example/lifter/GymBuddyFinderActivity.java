@@ -94,6 +94,8 @@ public class GymBuddyFinderActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 GetContactLists(dataSnapshot);
+                Log.d("contacts", requestedContactMap.toString());
+                Log.d("UID", userUID);
             }
 
             @Override
@@ -131,7 +133,6 @@ public class GymBuddyFinderActivity extends AppCompatActivity {
                         if (clickedProfileUID.equals(userUID)) {
                             Toast.makeText(GymBuddyFinderActivity.this, "Can't click your own", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(GymBuddyFinderActivity.this, clickedProfileUID, Toast.LENGTH_SHORT).show();
                             AttemptAddContact(clickedProfileUID);
                             notifyDataSetChanged();
                             Log.d("Onclick", "userUID: "+userUID);

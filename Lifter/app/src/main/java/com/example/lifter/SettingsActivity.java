@@ -1,18 +1,17 @@
 package com.example.lifter;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -155,7 +154,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(this, "Please enter a gym or N/A", Toast.LENGTH_SHORT).show();    
         }
         else {
-            HashMap<String, String> userMap = new HashMap<>();
+            HashMap<String, Object> userMap = new HashMap<>();
             userMap.put("uid", uid);
             userMap.put("name", username);
             userMap.put("gym", gymName);
