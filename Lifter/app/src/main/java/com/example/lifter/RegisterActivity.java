@@ -78,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         //If the user or password is empty then it will return an error
         //TODO: Add email verification and add password length rules
-        if (userEmail.isEmpty()) {
+        if (userEmail.isEmpty() || userEmail.length() < 6 || !userEmail.endsWith(".com") && !userEmail.endsWith(".co.nz")) {
             Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
         }
         else if (userPassword.isEmpty() || userPassword.length() < 6) {
