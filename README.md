@@ -25,6 +25,5 @@
 * **Harpreet Signh** - Developer
 * **Jayden Kean** - Developer
 
-## License
 
 ## Acknowledgement
